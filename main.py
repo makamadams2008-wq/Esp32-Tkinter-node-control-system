@@ -13,10 +13,16 @@ class CommandApp:
         self.maindashboard = None
 
         # region Navbar Elements
-        self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, True )
+        self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, False )
 
-        confirmation_button = tk.Button(parent, text="Confirm", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command=func)
-        confirmation_button.grid(row=2, column=0, columnspan=4, sticky="nsew")
+        nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= None )
+        nav_button_main_dashboard.grid(row=0, column=0, columnspan=2, sticky="nsew", padx="5px", pady="5px")
+
+        nav_button_status = tk.Button(self.navbar_frame, text="Status", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= None )
+        nav_button_status.grid(row=0, column=2, columnspan=2, sticky="nsew", padx="5px", pady="5px")
+
+        nav_button_update_state = tk.Button(self.navbar_frame, text="Update State", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= None )
+        nav_button_update_state.grid(row=0, column=4, columnspan=2, sticky="nsew", padx="5px", pady="5px")
 
         # endregion
 
