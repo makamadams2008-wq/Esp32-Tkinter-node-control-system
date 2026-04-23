@@ -12,8 +12,13 @@ class CommandApp:
         self.tabs = []
         self.maindashboard = None
 
-        # Navbar Elements
+        # region Navbar Elements
         self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, True )
+
+        confirmation_button = tk.Button(parent, text="Confirm", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command=func)
+        confirmation_button.grid(row=2, column=0, columnspan=4, sticky="nsew")
+
+        # endregion
 
         # Dashbord Element
         self.dashbord_frame = hf.config_frame(parent, 6, 6, True, 0, 1, True )
