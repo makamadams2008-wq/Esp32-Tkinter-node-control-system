@@ -7,11 +7,19 @@ import  helper_functions as hf
 import constants as const
 
 
-class ComandApp:
+class CommandApp:
     def __init__(self, parent):
         self.tabs = []
-
         self.maindashboard = None
+
+        # Navbar Elements
+        self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, True )
+
+        # Dashbord Element
+        self.dashbord_frame = hf.config_frame(parent, 6, 6, True, 0, 1, True )
+
+        # System status Elements
+        self.system_status_frame = hf.config_frame(parent, 6, 2, True, 0, 2, True )
 
 
 if __name__ == "__main__":
@@ -20,6 +28,6 @@ if __name__ == "__main__":
     root.title("Main Game")
     root.withdraw()
     
-    comand_app = ComandApp(hf.config_root(root)) # Configs the comand app
+    comand_app = CommandApp(hf.config_root(root)) # Configs the comand app
 
     root.mainloop()
