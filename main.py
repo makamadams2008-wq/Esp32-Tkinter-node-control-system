@@ -1,6 +1,7 @@
 """This file is for the frontend tkinter aplication where the root lives
 and all of the windows and frames asosiated with it. This file takes sorted
 data from the superbase database and diplays it to the user."""
+conectected_devieces = ["device A","device B", "device C"]
 
 import tkinter as tk
 import  helper_functions as hf
@@ -13,7 +14,7 @@ class CommandApp:
         self.maindashboard = None
 
         # region Navbar Elements
-        self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, False )
+        self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, False, const.FOREGROUND_COLOR)
 
         nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= None )
         nav_button_main_dashboard.grid(row=0, column=0, columnspan=2, sticky="nsew", padx="5px", pady="5px")
@@ -26,11 +27,20 @@ class CommandApp:
 
         # endregion
 
-        # Dashbord Element
-        self.dashbord_frame = hf.config_frame(parent, 6, 6, True, 0, 1, True )
+        # region Dashbord Element
+        self.dashbord_frame = hf.config_frame(parent, 6, 6, True, 1, 0, True, const.MIDGROUND_COLOR)
+
+        nav_label = tk.Label(self.dashbord_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
+        nav_label.grid(row=0, column=0, columnspan=4, sticky="nsew")
+
+        # endregion
 
         # System status Elements
-        self.system_status_frame = hf.config_frame(parent, 6, 2, True, 0, 2, True )
+        self.system_status_frame = hf.config_frame(parent, 6, 2, True, 0, 2, True, const.MIDGROUND_COLOR)
+
+        # endregion
+
+
 
 
 if __name__ == "__main__":

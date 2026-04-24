@@ -16,24 +16,24 @@ def config_root(parent):
     child_root.grid_rowconfigure(0, weight=1)
     return child_root
 
-def config_frame(parent, cols, rows, visibility, row_pos, col_pos, adaptive):
+def config_frame(parent, cols, rows, visibility, row_pos, col_pos, adaptive, background_color):
     """
     Configuers the frames by asigning there parent, rows columbs,
     relitive postion and if adaptive gives the frames the ability to
     strech and change.
     """
     # A frame for all content
-    frame = tk.Frame(parent, bg=const.BACKGROUND_COLOR, highlightthickness=0)
+    frame = tk.Frame(parent, bg=background_color, highlightthickness=0)
     if visibility is True :
         frame.grid(row=row_pos, column=col_pos, sticky="nsew")
 
     # Configures rows and columns differently depending if adaptive is True
     if adaptive is True :
         for i in range(cols):
-            frame.columnconfigure(i, weight=1, uniform="stat_cols", minsize=50)
+            frame.columnconfigure(i, weight=1, uniform="stat_cols", minsize=100)
 
         for i in range(rows):
-            frame.rowconfigure(i, weight=1, uniform="stat_rows", minsize=20)
+            frame.rowconfigure(i, weight=1, uniform="stat_rows", minsize=30)
 
     else:
         for i in range(cols):
@@ -83,3 +83,20 @@ def create_radio(parent, my_list, message, func):
         radios.append(new_radio)
     # Returns the instance variable
     return list_variable
+
+def create_label(parent, x_pos, y_pos, text_output):
+    label = tk.Label(parent, text=text_output, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
+    label.grid(row=y_pos, column=x_pos, columnspan=4, sticky="nsew")
+    
+
+def itirate_list(parent, list, output_type, input_values): # Input values is a list
+    new_list = []
+    for index, item in enumerate(index, list):
+        list_frame = config_frame(parent, len(list), 1, True, 0, 1, True )
+        if output_type == "radio":
+            create_radio(list_frame, *input_values) # Spreads the values
+        elif output_type == "radio":
+            create_entry(list_frame, *input_values)
+        elif output_type == "label":
+            create_label(list_frame, *input_values)
+        new_list.append(list_frame)
