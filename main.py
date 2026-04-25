@@ -1,7 +1,7 @@
 """This file is for the frontend tkinter aplication where the root lives
 and all of the windows and frames asosiated with it. This file takes sorted
 data from the superbase database and diplays it to the user."""
-ghost_devices = ["device A","device B", "device C"]
+ghost_devices = ["device A","device B", "device C", "device D", "device D"]
 
 import tkinter as tk
 import  helper_functions as hf
@@ -38,11 +38,7 @@ class CommandApp:
 
         # System status Elements
         self.system_status_frame = hf.config_frame(parent, 6, 2, True, 0, 2, True, const.MIDGROUND_COLOR)
-        
-
         # endregion
-
-
 
 
 if __name__ == "__main__":

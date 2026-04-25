@@ -88,15 +88,21 @@ def create_label(parent, x_pos, y_pos, text_output):
     label = tk.Label(parent, text=text_output, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     label.grid(row=y_pos, column=x_pos, columnspan=4, sticky="nsew")
     
-def map_elements(frame_data, input_list, output_type, input_values = False ): # Input values is a list
+def map_elements(canvas_data, input_list, output_type, input_values = False ): # Input values is a list
 
-    parent, color, row, col = frame_data # destructuring for readability
+    parent, canvas_color, canvas_row, canvas_col = canvas_data # destructuring for readability
+    
     new_list = []
-    list_frame = config_frame(parent, 4, len(input_list), True, row, col, True, color) # creates the frame
+    # Create a canvas widget
+
+    canvas = tk.Canvas(parent, width=400, height=300, bg='lightblue')
+    canvas.grid(column=canvas_col, row=canvas_row, rowspan=4)
+    list_frame = config_frame(canvas, 4, len(input_list), True, 0, 0, True, const.MIDGROUND_COLOR) # creates the frame
+
     for index in range(len(input_list)): # Itirates over the list 
         if output_type == "radio":
             create_radio(list_frame, *input_values) # Spreads the values
-        elif output_type == "radio":
+        elif output_type == "entry":
             create_entry(list_frame, *input_values)
         elif output_type == "label":
             create_label(list_frame, 0, index, input_values[index] if input_values else input_list[index]) # Turnery operator checks if there is a different set of values to dispaly on the label
