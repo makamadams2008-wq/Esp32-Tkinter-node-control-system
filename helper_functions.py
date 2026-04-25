@@ -88,15 +88,18 @@ def create_label(parent, x_pos, y_pos, text_output):
     label = tk.Label(parent, text=text_output, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     label.grid(row=y_pos, column=x_pos, columnspan=4, sticky="nsew")
     
+def map_elements(frame_data, input_list, output_type, input_values = False ): # Input values is a list
 
-def itirate_list(parent, list, output_type, input_values): # Input values is a list
+    parent, color, row, col = frame_data # destructuring for readability
     new_list = []
-    for index, item in enumerate(index, list):
-        list_frame = config_frame(parent, len(list), 1, True, 0, 1, True )
+    list_frame = config_frame(parent, 4, len(input_list), True, row, col, True, color) # creates the frame
+    for index in range(len(input_list)): # Itirates over the list 
         if output_type == "radio":
             create_radio(list_frame, *input_values) # Spreads the values
         elif output_type == "radio":
             create_entry(list_frame, *input_values)
         elif output_type == "label":
-            create_label(list_frame, *input_values)
-        new_list.append(list_frame)
+            create_label(list_frame, 0, index, input_values[index] if input_values else input_list[index]) # Turnery operator checks if there is a different set of values to dispaly on the label
+    new_list.append(list_frame)
+
+    return new_list
