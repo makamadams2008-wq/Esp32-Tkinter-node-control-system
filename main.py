@@ -4,7 +4,7 @@ data from the superbase database and diplays it to the user."""
 ghost_devices = ["device A","device B", "device C", "device D", "device D"]
 
 import tkinter as tk
-import  helper_functions as hf
+import  backend_functions as hf
 import constants as const
 
 
@@ -28,16 +28,16 @@ class CommandApp:
         # endregion
 
         # region Dashbord Element
-        self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.BACKGROUND_COLOR)
-        nav_label = tk.Label(self.dashbord_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.MIDGROUND_COLOR, fg=const.FOREGROUND_COLOR)
-        nav_label.grid(row=0, column=0, columnspan=1, sticky="nsew")
+        self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
+        self.dashboard_label = hf.create_label(self.dashbord_frame, 0, 0, "Main Dashboard")
         
         self.conencted_devices_frame_data = [self.dashbord_frame, const.FOREGROUND_COLOR, 2, 0] 
         self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, ghost_devices, "label")
         # endregion
 
         # System status Elements
-        self.system_status_frame = hf.config_frame(parent, 6, 2, True, 0, 2, True, const.MIDGROUND_COLOR)
+        self.system_status_frame = hf.config_frame(parent, 1, 4, True, 2, 0, True, const.MIDGROUND_COLOR)
+        self.status_label = hf.create_label(self.system_status_frame, 0, 2, "Status: Stable connection")
         # endregion
 
 

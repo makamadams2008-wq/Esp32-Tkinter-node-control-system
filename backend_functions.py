@@ -91,11 +91,10 @@ def create_label(parent, x_pos, y_pos, text_output):
 def map_elements(canvas_data, input_list, output_type, input_values = False ): # Input values is a list
 
     parent, canvas_color, canvas_row, canvas_col = canvas_data # destructuring for readability
-    
     new_list = []
     # Create a canvas widget
 
-    canvas = tk.Canvas(parent, width=400, height=300, bg='lightblue')
+    canvas = tk.Canvas(parent, width=600, height=300, bg=canvas_color)
     canvas.grid(column=canvas_col, row=canvas_row, rowspan=4)
     list_frame = config_frame(canvas, 4, len(input_list), True, 0, 0, True, const.MIDGROUND_COLOR) # creates the frame
 
