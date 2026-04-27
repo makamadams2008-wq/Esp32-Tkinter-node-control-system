@@ -1,7 +1,13 @@
 """This file is for the frontend tkinter aplication where the root lives
 and all of the windows and frames asosiated with it. This file takes sorted
 data from the superbase database and diplays it to the user."""
-ghost_devices = ["device A","device B", "device C", "device D", "device D"]
+
+# Device name, Device ID, Componets
+ghost_devices = [
+    {"device_id": 1,"device_name": "device A", "components": ["Light", "Sound", "Vibration"]},
+    {"device_id": 2,"device_name": "device B", "components": ["Sigma", "Beta", "Alpha"]},
+    {"device_id": 3,"device_name": "device C", "components": ["Noob", "Pro", "Hacker"]},
+]
 
 import tkinter as tk
 import  backend_functions as hf
@@ -13,7 +19,7 @@ class CommandApp:
         self.tabs = []
         self.maindashboard = None
 
-        # region Navbar Elements
+        # region Navbar
         self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, True, const.MIDGROUND_COLOR)
 
         nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= None )
@@ -27,20 +33,24 @@ class CommandApp:
 
         # endregion
 
+        # region Dashboard
         # region Dashbord Element
         self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.dashboard_label = hf.create_label(self.dashbord_frame, 0, 0, "Main Dashboard")
         
         self.conencted_devices_frame_data = [self.dashbord_frame, const.FOREGROUND_COLOR, 2, 0] 
-        self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, ghost_devices, "label")
+        self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, [element['device_name'] for element in ghost_devices], "label")
         # endregion
-
-        # System status Elements
+        # region System status Elements
         self.system_status_frame = hf.config_frame(parent, 1, 4, True, 2, 0, True, const.MIDGROUND_COLOR)
         self.status_label = hf.create_label(self.system_status_frame, 0, 2, "Status: Stable connection")
         # endregion
+        # endregion
+
+        # region Status Page
 
 
+        # endregion
 if __name__ == "__main__":
     """Main."""
     root = tk.Tk()
