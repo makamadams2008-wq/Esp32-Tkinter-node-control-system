@@ -43,34 +43,35 @@ def config_frame(parent, cols, rows, visibility, row_pos, col_pos, adaptive, bac
             frame.rowconfigure(i, weight=1, minsize=20)
     return frame
 
-def create_entry(parent, message, func):
+def create_entry(parent, message, func, pos_x, pos_y, bg_color):
     """
     Takes in a parent for positioning, a message and a function to call
     when confirm button is pressed. The function is designed to quickly
     create muliptle enetries with a simple entry confirm buutton format.
     """
-
-    label = tk.Label(parent, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
+    entry_frame = config_frame(parent, 4, 3, pos_x, pos_y, True, bg_color) # Creates a parent frame
+    label = tk.Label(entry_frame, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     label.grid(row=0, column=0, columnspan=4, sticky="nsew")
 
-    enter_here_label = tk.Label(parent, text="Enter Here:", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
+    enter_here_label = tk.Label(entry_frame, text="Enter Here:", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     enter_here_label.grid(row=1, column=0, columnspan=2, sticky="nsew")
 
-    entry = tk.Entry(parent, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
+    entry = tk.Entry(entry_frame, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     entry.grid(row=1, column=2, columnspan=2, sticky="nsew")
 
-    confirmation_button = tk.Button(parent, text="Confirm", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command=func)
+    confirmation_button = tk.Button(entry_frame, text="Confirm", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command=func)
     confirmation_button.grid(row=2, column=0, columnspan=4, sticky="nsew")
     return entry
 
-def create_radio(parent, my_list, message, func):
+def create_radio(parent, message, my_list, func, pos_x, pos_y, bg_color):
     """
     Creates a tkinter radio with a list of elements
     for options, a messgae to ask, and a function to
     run when a option is selected.
     """
+    radio_frame = config_frame(parent, 4, len(my_list)+ 1, pos_x, pos_y, True, bg_color)
     # Label
-    my_label = tk.Label(parent, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
+    my_label = tk.Label(radio_frame, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     my_label.grid(row=0, column=0, columnspan=4, sticky="nsew")
     # Setup
     list_variable = tk.StringVar()
@@ -78,40 +79,41 @@ def create_radio(parent, my_list, message, func):
     radios = []
     # Creating Radios
     for i, item in enumerate(my_list):
-        new_radio = tk.Radiobutton(parent, text=str(item), variable=list_variable, value=item, command=func, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, selectcolor=const.BACKGROUND_COLOR)
+        new_radio = tk.Radiobutton(radio_frame, text=str(item), variable=list_variable, value=item, command=func, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, selectcolor=const.BACKGROUND_COLOR)
         new_radio.grid(row=i+1, column=0, columnspan=6, sticky="sew")
         radios.append(new_radio)
     # Returns the instance variable
     return list_variable
 
-def create_label(parent, x_pos, y_pos, text_output):
-    label = tk.Label(parent, text=text_output, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
-    label.grid(row=y_pos, column=x_pos, columnspan=4, sticky="nsew")
+def create_label(parent, message, pos_x, pos_y, bg_color):
+    label = tk.Label(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.FOREGROUND_COLOR)
+    label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
     
 def map_elements(canvas_data,  input_data): # Input values is a list
 
-    parent, canvas_color, canvas_row, canvas_col = canvas_data # destructuring for readability
+    parent, canvas_color, canvas_row, canvas_col = canvas_data # Destructuring for readability
 
     canvas = tk.Canvas(parent, width=600, height=300, bg=canvas_color)
     canvas.grid(column=canvas_col, row=canvas_row, rowspan=4)
     parent_frame = config_frame(canvas, 4, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR) # creates the frame
 
 
-    array_of_child_elements = []
-    # Destructuring input_data for later iutalisation and readability
+    array_of_child_frames = []
+    # Breaking down perant elements to children for creation
     for element in input_data:
-        child_frame = config_frame(parent_frame, 4, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR)
+        child_frame = config_frame(parent_frame, 4, len(element), True, 0, 0, True, const.MIDGROUND_COLOR)
         for info_field in element:
             # Each info field element is a list eg (2, 'lable', [])
             info_field_data = info_field[0]
             info_field_type = info_field[1]
             info_field_atrabutes = info_field[2]
+            # Cheaks the type of the output
             if info_field_type == "radio":
-                create_radio(child_frame, sensor*input_values) # Spreads the values
+                create_radio(child_frame, *info_field_data, *info_field_atrabutes) # Spreads the values
             elif info_field_type == "entry":
-                create_entry(child_frame, sensor*input_values)
+                create_entry(child_frame, *info_field_data, *info_field_atrabutes)
             elif info_field_type == "label":
-                create_label(child_frame, 0, index, input_values[index] if input_values else input_list[index]) # Turnery operator checks if there is a different set of values to dispaly on the label
-            array_of_child_elements.append(child_frame)
+                create_label(child_frame, *info_field_data, *info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
+        array_of_child_frames.append(child_frame) # Appends the data to a list of frame componets
 
-    return new_list
+    return array_of_child_frames

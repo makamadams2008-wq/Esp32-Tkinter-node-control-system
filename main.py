@@ -19,7 +19,7 @@ class CommandApp:
         self.tabs = []
         self.maindashboard = None
 
-        # region Navbar
+        # Navbar
         self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, True, const.MIDGROUND_COLOR)
 
         nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= None )
@@ -31,10 +31,7 @@ class CommandApp:
         nav_button_update_state = tk.Button(self.navbar_frame, text="Update State", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= None )
         nav_button_update_state.grid(row=0, column=4, columnspan=2, sticky="nsew", padx="5px", pady="5px")
 
-        # endregion
-
-        # region Dashboard
-        # region Dashbord Element
+        # Dashboard
         self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.dashboard_label = hf.create_label(self.dashbord_frame, 0, 0, "Main Dashboard")
         
@@ -43,17 +40,11 @@ class CommandApp:
         print(self.conencted_devices_label_data)
         
         self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, self.conencted_devices_label_data)
-        # endregion
-        # region System status Elements
+
+        # Status
         self.system_status_frame = hf.config_frame(parent, 1, 4, True, 2, 0, True, const.MIDGROUND_COLOR)
         self.status_label = hf.create_label(self.system_status_frame, 0, 2, "Status: Stable connection")
-        # endregion
-        # endregion
 
-        # region Status Page
-
-
-        # endregion
 if __name__ == "__main__":
     """Main."""
     root = tk.Tk()
