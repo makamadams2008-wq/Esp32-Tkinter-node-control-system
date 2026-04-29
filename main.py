@@ -38,8 +38,11 @@ class CommandApp:
         self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.dashboard_label = hf.create_label(self.dashbord_frame, 0, 0, "Main Dashboard")
         
-        self.conencted_devices_frame_data = [self.dashbord_frame, const.FOREGROUND_COLOR, 2, 0] 
-        self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, [element['device_name'] for element in ghost_devices], "label")
+        self.conencted_devices_frame_data = [self.dashbord_frame, const.FOREGROUND_COLOR, 2, 0]
+        self.conencted_devices_label_data = [((element['device_id'], "lable"), (element['device_name'], "label")) for element in ghost_devices] # Data is stored with a type and info
+        print(self.conencted_devices_label_data)
+        
+        self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, self.conencted_devices_label_data)
         # endregion
         # region System status Elements
         self.system_status_frame = hf.config_frame(parent, 1, 4, True, 2, 0, True, const.MIDGROUND_COLOR)
