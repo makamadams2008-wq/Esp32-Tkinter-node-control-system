@@ -39,7 +39,7 @@ class CommandApp:
         self.dashboard_label = hf.create_label(self.dashbord_frame, 0, 0, "Main Dashboard")
         
         self.conencted_devices_frame_data = [self.dashbord_frame, const.FOREGROUND_COLOR, 2, 0]
-        self.conencted_devices_label_data = [((element['device_id'], "lable"), (element['device_name'], "label")) for element in ghost_devices] # Data is stored with a type and info
+        self.conencted_devices_label_data = [((element['device_id'], "lable", []), (element['device_name'], "label", [])) for element in ghost_devices] # Data is stored with a type and info
         print(self.conencted_devices_label_data)
         
         self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, self.conencted_devices_label_data)

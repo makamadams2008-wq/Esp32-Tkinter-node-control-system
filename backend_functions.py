@@ -88,25 +88,30 @@ def create_label(parent, x_pos, y_pos, text_output):
     label = tk.Label(parent, text=text_output, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     label.grid(row=y_pos, column=x_pos, columnspan=4, sticky="nsew")
     
-def map_elements(canvas_data,  sensor_data): # Input values is a list
-    input_values = False
-    input_list, output_type, input_values = sensor_data
+def map_elements(canvas_data,  input_data): # Input values is a list
+
     parent, canvas_color, canvas_row, canvas_col = canvas_data # destructuring for readability
-    new_list = []
-    # Create a canvas widget
 
     canvas = tk.Canvas(parent, width=600, height=300, bg=canvas_color)
     canvas.grid(column=canvas_col, row=canvas_row, rowspan=4)
-    list_frame = config_frame(canvas, 4, len(input_list), True, 0, 0, True, const.MIDGROUND_COLOR) # creates the frame
+    parent_frame = config_frame(canvas, 4, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR) # creates the frame
 
-    for sensor in sensor_data:
-        for index in range(len(sensor[input_list])): # Itirates over the list 
-            if output_type == "radio":
-                create_radio(list_frame, sensor*input_values) # Spreads the values
-            elif output_type == "entry":
-                create_entry(list_frame, sensor*input_values)
-            elif output_type == "label":
-                create_label(list_frame, 0, index, input_values[index] if input_values else input_list[index]) # Turnery operator checks if there is a different set of values to dispaly on the label
-        new_list.append(list_frame)
+
+    array_of_child_elements = []
+    # Destructuring input_data for later iutalisation and readability
+    for element in input_data:
+        child_frame = config_frame(parent_frame, 4, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR)
+        for info_field in element:
+            # Each info field element is a list eg (2, 'lable', [])
+            info_field_data = info_field[0]
+            info_field_type = info_field[1]
+            info_field_atrabutes = info_field[2]
+            if info_field_type == "radio":
+                create_radio(child_frame, sensor*input_values) # Spreads the values
+            elif info_field_type == "entry":
+                create_entry(child_frame, sensor*input_values)
+            elif info_field_type == "label":
+                create_label(child_frame, 0, index, input_values[index] if input_values else input_list[index]) # Turnery operator checks if there is a different set of values to dispaly on the label
+            array_of_child_elements.append(child_frame)
 
     return new_list
