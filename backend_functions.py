@@ -94,12 +94,13 @@ def map_elements(canvas_data,  input_data): # Input values is a list
     parent, canvas_color, canvas_row, canvas_col = canvas_data # Destructuring for readability
     canvas = tk.Canvas(parent, width=600, height=300, bg=canvas_color)
     canvas.grid(column=canvas_col, row=canvas_row, rowspan=4)
-    parent_frame = config_frame(canvas, 4, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR) # creates the frame
+    parent_frame = config_frame(canvas, 1, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR) # creates the frame
 
     array_of_child_frames = []
     # Breaking down perant elements to children for creation
-    for element in input_data:
-        child_frame = config_frame(parent_frame, 4, len(element), True, 0, 0, True, const.MIDGROUND_COLOR)
+    for index, element in enumerate(input_data):
+        print(f"Element Length: {len(element)}")
+        child_frame = config_frame(parent_frame, 4, len(element), True, index, 0, True, const.BACKGROUND_COLOR)
         for index, info_field in enumerate(element):
             # Each info field element is a list eg (2, 'lable', [])
             info_field_type = info_field[0]
@@ -112,8 +113,7 @@ def map_elements(canvas_data,  input_data): # Input values is a list
             elif info_field_type == "entry":
                 create_entry(child_frame, info_field_data, 0, index, info_field_atrabutes)
             elif info_field_type == "label":
-                print(child_frame, info_field_data, 0, index, info_field_atrabutes)
                 create_label(child_frame, info_field_data, 0, index, info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
-            array_of_child_frames.append(child_frame) # Appends the data to a list of frame componets
-
+        array_of_child_frames.append(child_frame) # Appends the data to a list of frame componets
+    print(array_of_child_frames)
     return array_of_child_frames
