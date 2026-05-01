@@ -33,17 +33,18 @@ class CommandApp:
 
         # Dashboard
         self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
-        self.dashboard_label = hf.create_label(self.dashbord_frame, 0, 0, "Main Dashboard")
+        self.dashboard_label = hf.create_label(parent=self.dashbord_frame, message="Main Dashboard", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
         
         self.conencted_devices_frame_data = [self.dashbord_frame, const.FOREGROUND_COLOR, 2, 0]
-        self.conencted_devices_label_data = [((element['device_id'], "lable", []), (element['device_name'], "label", [])) for element in ghost_devices] # Data is stored with a type and info
+
+        self.conencted_devices_label_data = [(("label", element['device_name'], [const.MIDGROUND_COLOR]), ("label", element['device_name'], [const.MIDGROUND_COLOR])) for element in ghost_devices] # Data is stored with a type and info
         print(self.conencted_devices_label_data)
         
         self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, self.conencted_devices_label_data)
 
         # Status
         self.system_status_frame = hf.config_frame(parent, 1, 4, True, 2, 0, True, const.MIDGROUND_COLOR)
-        self.status_label = hf.create_label(self.system_status_frame, 0, 2, "Status: Stable connection")
+        self.status_label = hf.create_label(parent=self.system_status_frame, message="Status: Stable connection", pos_x=0, pos_y=2, bg_color=const.BACKGROUND_COLOR)
 
 if __name__ == "__main__":
     """Main."""
