@@ -64,10 +64,8 @@ class CommandApp:
         self.pages = [self.update_status_frame, self.curent_status_frame, self.dashbord_frame]
         self.set_page(self.dashbord_frame) # Sets page to main page on start
     # region Methods
-    def set_page(self, current_page):
-        for page in self.pages:
-            if page == current_page:
-                page.tkraise()
+    def set_page(self, current_page: tk.Frame):
+        current_page.tkraise()
     # endregion
 
             
