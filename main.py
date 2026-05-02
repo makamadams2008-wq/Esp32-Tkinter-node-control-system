@@ -2,17 +2,10 @@
 and all of the windows and frames asosiated with it. This file takes sorted
 data from the superbase database and diplays it to the user."""
 
-# Device name, Device ID, Componets
-ghost_devices = [
-    {"device_id": 1,"device_name": "device A", "components": ["Light", "Sound", "Vibration"]},
-    {"device_id": 2,"device_name": "device B", "components": ["Sigma", "Beta", "Alpha"]},
-    {"device_id": 3,"device_name": "device C", "components": ["Noob", "Pro", "Hacker"]},
-    {"device_id": 3,"device_name": "device C", "components": ["Noob", "Pro", "Hacker"]},
-]
-
 import tkinter as tk
-import  backend_functions as hf
+import backend_functions as hf
 import constants as const
+import ghost_device_data
 
 
 class CommandApp:
@@ -42,19 +35,22 @@ class CommandApp:
         self.dashboard_device_genral_data = [(
             ("label", element['device_name'], [const.BACKGROUND_COLOR]),
             ("label",f"Conected", [const.MIDGROUND_COLOR]),
-        ) for element in ghost_devices] # Data is stored with a type and info
+            ("label",f"", [const.MIDGROUND_COLOR]),
+        ) for element in ghost_device_data.devices] # Data is stored with a type and info
         self.display_devices = hf.map_elements(self.dashboard_device_frame_data, self.dashboard_device_genral_data)
         # endregion
 
         # region Current status page
+        
         self.curent_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
+        self.dashboard_label = hf.create_label(parent=self.dashbord_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
 
         self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.current_status_device_data = [(
             ("label", element['device_name'], [const.BACKGROUND_COLOR]),
             ("label",f" Device ID: {element['device_id']}", [const.MIDGROUND_COLOR]),
             ("label",f" Components: {', '.join(element['components'])}", [const.MIDGROUND_COLOR]),
-        ) for element in ghost_devices] # Data is stored with a type and info
+        ) for element in ghost_device_data.devices] # Data is stored with a type and info
         self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
         # endregion
 
