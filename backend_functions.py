@@ -88,6 +88,10 @@ def create_radio(parent, message, my_list, func, pos_x, pos_y, bg_color):
 def create_label(parent, message, pos_x, pos_y, bg_color):
     label = tk.Label(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.FOREGROUND_COLOR)
     label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
+
+def create_button(parent, message, func, pos_x, pos_y, bg_color):
+    label = tk.Button(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.FOREGROUND_COLOR, command=func)
+    label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
     
 def map_elements(canvas_data,  input_data): # Input values is a list
 
@@ -107,14 +111,16 @@ def map_elements(canvas_data,  input_data): # Input values is a list
             info_field_type = info_field[0]
             info_field_data = info_field[1]
             info_field_atrabutes = info_field[2]
-            print(f"Input \n Data: {info_field_data}\n Type: {info_field_type}\n Atrabutes{info_field_atrabutes}")
+            # print(f"Input \n Data: {info_field_data}\n Type: {info_field_type}\n Atrabutes{info_field_atrabutes}")
             # Cheaks the type of the output
             if info_field_type == "radio":
-                create_radio(child_frame, info_field_data, 0, index, info_field_atrabutes) # Spreads the values
+                create_radio(child_frame, *info_field_data, 0, index, *info_field_atrabutes) # Spreads the values
+            if info_field_type == "button":
+                create_button(child_frame, *info_field_data, 0, index, *info_field_atrabutes) # Spreads the values
             elif info_field_type == "entry":
-                create_entry(child_frame, info_field_data, 0, index, info_field_atrabutes)
+                create_entry(child_frame, *info_field_data, 0, index, *info_field_atrabutes)
             elif info_field_type == "label":
-                create_label(child_frame, info_field_data, 0, index, info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
+                create_label(child_frame, *info_field_data, 0, index, *info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
         array_of_child_frames.append(child_frame) # Appends the data to a list of frame componets
     # print(array_of_child_frames)
     return array_of_child_frames

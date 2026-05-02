@@ -33,9 +33,9 @@ class CommandApp:
 
         self.dashboard_device_frame_data = [self.dashbord_frame, const.MIDGROUND_COLOR, 2, 0]
         self.dashboard_device_genral_data = [(
-            ("label", element['device_name'], [const.BACKGROUND_COLOR]),
-            ("label",f"Conected", [const.MIDGROUND_COLOR]),
-            ("label",f"", [const.MIDGROUND_COLOR]),
+            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
+            ("label",[f"Conected"], [const.MIDGROUND_COLOR]),
+            ("label",[f""], [const.MIDGROUND_COLOR]),
         ) for element in ghost_device_data.devices] # Data is stored with a type and info
         self.display_devices = hf.map_elements(self.dashboard_device_frame_data, self.dashboard_device_genral_data)
         # endregion
@@ -47,15 +47,21 @@ class CommandApp:
 
         self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.current_status_device_data = [(
-            ("label", element['device_name'], [const.BACKGROUND_COLOR]),
-            ("label",f" Device ID: {element['device_id']}", [const.MIDGROUND_COLOR]),
-            ("label",f" Components: {', '.join(element['components'])}", [const.MIDGROUND_COLOR]),
+            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
+            ("label",[f" Device ID: {element['device_id']}"], [const.MIDGROUND_COLOR]),
+            ("label",[f" Components: {', '.join(element['components'])}"], [const.MIDGROUND_COLOR]),
         ) for element in ghost_device_data.devices] # Data is stored with a type and info
         self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
         # endregion
 
         # region Update status page
         self.update_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
+        self.update_status_frame_data = [self.update_status_frame, const.MIDGROUND_COLOR, 2, 0]
+        self.update_device_data = [(
+            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
+            ("button", ["Update Sensor", lambda e = element: self.show_sensor_dashboard(e)], [const.MIDGROUND_COLOR])
+        ) for element in ghost_device_data.devices] # Data is stored with a type and info
+        self.display_device_data = hf.map_elements(self.update_status_frame_data, self.update_device_data)
         # endregion
 
         # region Overall status Footer
@@ -67,6 +73,10 @@ class CommandApp:
     # region Methods
     def set_page(self, current_page: tk.Frame):
         current_page.tkraise()
+    
+    def show_sensor_dashboard(self, element):
+        print(f"This should show the dashboard for sesnor id: {element["device_id"]}")
+        pass
     # endregion
 
             
