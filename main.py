@@ -17,6 +17,7 @@ import constants as const
 
 class CommandApp:
     def __init__(self, parent):
+        
         self.tabs = []
         self.maindashboard = None
 
@@ -26,7 +27,7 @@ class CommandApp:
         nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.dashbord_frame) )
         nav_button_main_dashboard.grid(row=0, column=0, columnspan=2, sticky="nsew", padx="5px", pady="5px")
 
-        nav_button_status = tk.Button(self.navbar_frame, text="Status", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.system_status_frame) )
+        nav_button_status = tk.Button(self.navbar_frame, text="Status", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.curent_status_frame) )
         nav_button_status.grid(row=0, column=2, columnspan=2, sticky="nsew", padx="5px", pady="5px")
 
         nav_button_update_state = tk.Button(self.navbar_frame, text="Update State", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.update_status_frame) )
@@ -59,10 +60,14 @@ class CommandApp:
         self.system_status_frame = hf.config_frame(parent, 1, 4, True, 2, 0, True, const.MIDGROUND_COLOR)
         self.status_label = hf.create_label(parent=self.system_status_frame, message="Status: Stable connection", pos_x=0, pos_y=2, bg_color=const.BACKGROUND_COLOR)
         # endregion
- 
+
+        self.pages = [self.update_status_frame, self.curent_status_frame, self.dashbord_frame]
+        self.set_page(self.dashbord_frame) # Sets page to main page on start
     # region Methods
     def set_page(self, current_page):
-        pass
+        for page in self.pages:
+            if page == current_page:
+                page.tkraise()
     # endregion
 
             
@@ -74,5 +79,5 @@ if __name__ == "__main__":
     root.withdraw()
     
     comand_app = CommandApp(hf.config_root(root)) # Configs the comand app
-
     root.mainloop()
+    
