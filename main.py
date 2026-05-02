@@ -36,20 +36,26 @@ class CommandApp:
 
         # region Main dashboard page
         self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
-        self.dashboard_label = hf.create_label(parent=self.dashbord_frame, message="Main Dashboard", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
-        
-        self.conencted_devices_frame_data = [self.dashbord_frame, const.MIDGROUND_COLOR, 2, 0]
-        self.conencted_devices_label_data = [(
-            ("label", element['device_name'], [const.BACKGROUND_COLOR]),
-            ("label",f" Device ID: {element['device_id']}", [const.MIDGROUND_COLOR]),
-            ("label",f" Components: {', '.join(element['components'])}", [const.MIDGROUND_COLOR]),
-        ) for element in ghost_devices] # Data is stored with a type and info
+        self.dashboard_label = hf.create_label(parent=self.dashbord_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
 
-        self.connected_devices = hf.map_elements(self.conencted_devices_frame_data, self.conencted_devices_label_data)
+        self.dashboard_device_frame_data = [self.dashbord_frame, const.MIDGROUND_COLOR, 2, 0]
+        self.dashboard_device_genral_data = [(
+            ("label", element['device_name'], [const.BACKGROUND_COLOR]),
+            ("label",f"Conected", [const.MIDGROUND_COLOR]),
+        ) for element in ghost_devices] # Data is stored with a type and info
+        self.display_devices = hf.map_elements(self.dashboard_device_frame_data, self.dashboard_device_genral_data)
         # endregion
 
         # region Current status page
         self.curent_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
+
+        self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]
+        self.current_status_device_data = [(
+            ("label", element['device_name'], [const.BACKGROUND_COLOR]),
+            ("label",f" Device ID: {element['device_id']}", [const.MIDGROUND_COLOR]),
+            ("label",f" Components: {', '.join(element['components'])}", [const.MIDGROUND_COLOR]),
+        ) for element in ghost_devices] # Data is stored with a type and info
+        self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
         # endregion
 
         # region Update status page
@@ -61,7 +67,6 @@ class CommandApp:
         self.status_label = hf.create_label(parent=self.system_status_frame, message="Status: Stable connection", pos_x=0, pos_y=2, bg_color=const.BACKGROUND_COLOR)
         # endregion
 
-        self.pages = [self.update_status_frame, self.curent_status_frame, self.dashbord_frame]
         self.set_page(self.dashbord_frame) # Sets page to main page on start
     # region Methods
     def set_page(self, current_page: tk.Frame):
