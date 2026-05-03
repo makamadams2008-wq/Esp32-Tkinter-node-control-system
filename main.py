@@ -6,16 +6,17 @@ import tkinter as tk
 import backend_functions as hf
 import constants as const
 import ghost_device_data
+from components import nav_bar, main_page, status_page, update_page, footer
 
 
 class CommandApp:
     def __init__(self, parent):
         # creating child objects
-        self.nav_bar = NavBar(parent, self)
-        self.main_page = MainPage(parent, self)
-        self.status_page = StatusPage(parent, self)
-        self.update_page = UpdatePage(parent, self)
-        self.footer = Footer(parent, self)
+        self.nav_bar = nav_bar.NavBar(parent, self)
+        self.main_page = main_page.MainPage(parent, self)
+        self.status_page = status_page.StatusPage(parent, self)
+        self.update_page = update_page.UpdatePage(parent, self)
+        self.footer = footer.Footer(parent, self)
         self.tabs = []
         self.maindashboard = None
         self.set_page(self.main_page.dashbord_frame) # Sets page to main page on start
@@ -24,86 +25,7 @@ class CommandApp:
         current_page.tkraise()
     # endregion
 
-class NavBar(tk.Frame):
-    def __init__(self, parent, controller):
-        super().__init__(parent) # Inheritance parent data
-        self.controller = controller
-        # region Navbar
-        self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, True, const.MIDGROUND_COLOR)
 
-        nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.controller.set_page(self.controller.main_page.dashbord_frame) )
-        nav_button_main_dashboard.grid(row=0, column=0, columnspan=2, sticky="nsew", padx="5px", pady="5px")
-
-        nav_button_status = tk.Button(self.navbar_frame, text="Status", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.controller.set_page(self.controller.status_page.curent_status_frame) )
-        nav_button_status.grid(row=0, column=2, columnspan=2, sticky="nsew", padx="5px", pady="5px")
-
-        nav_button_update_state = tk.Button(self.navbar_frame, text="Update State", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.controller.set_page(self.controller.update_page.update_status_frame) )
-        nav_button_update_state.grid(row=0, column=4, columnspan=2, sticky="nsew", padx="5px", pady="5px")
-        # endregion
-
-class MainPage(tk.Frame):
-    def __init__(self, parent, controller):
-        super().__init__(parent) # Inheritance parent data
-        self.controller = controller
-        # region Main dashboard page
-        self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
-        self.dashboard_label = hf.create_label(parent=self.dashbord_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
-
-        self.dashboard_device_frame_data = [self.dashbord_frame, const.MIDGROUND_COLOR, 2, 0]
-        self.dashboard_device_genral_data = [(
-            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
-            ("label",[f"Conected"], [const.MIDGROUND_COLOR]),
-            ("label",[f""], [const.MIDGROUND_COLOR]),
-        ) for element in ghost_device_data.devices] # Data is stored with a type and info
-        self.display_devices = hf.map_elements(self.dashboard_device_frame_data, self.dashboard_device_genral_data)
-        # endregion
-
-class StatusPage(tk.Frame):
-    def __init__(self, parent, controller):
-        super().__init__(parent) # Inheritance parent data
-        self.controller = controller
-        # region Current status page
-        
-        self.curent_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
-        self.dashboard_label = hf.create_label(parent=self.curent_status_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
-
-        self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]
-        self.current_status_device_data = [(
-            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
-            ("label",[f" Device ID: {element['device_id']}"], [const.MIDGROUND_COLOR]),
-            ("label",[f" Components: {', '.join(element['components'])}"], [const.MIDGROUND_COLOR]),
-        ) for element in ghost_device_data.devices] # Data is stored with a type and info
-        self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
-        # endregion
-
-class UpdatePage(tk.Frame):
-    def __init__(self, parent, controller):
-        super().__init__(parent) # Inheritance parent data
-        self.controller = controller
-        # region Update status page
-        self.update_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
-        self.update_status_frame_data = [self.update_status_frame, const.MIDGROUND_COLOR, 2, 0]
-        self.update_device_data = [(
-            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
-            ("button", ["Update Sensor", lambda e = element: self.show_sensor_dashboard(e)], [const.MIDGROUND_COLOR])
-        ) for element in ghost_device_data.devices] # Data is stored with a type and info
-        self.display_device_data = hf.map_elements(self.update_status_frame_data, self.update_device_data)
-        # endregion
-
-    # functions
-    def show_sensor_dashboard(self, element):
-        print(f"This should show the dashboard for sesnor id: {element["device_id"]}")
-        pass
-
-class Footer(tk.Frame):
-    def __init__(self, parent, controller):
-        self.controller = controller
-        super().__init__(parent) # Inheritance parent data
-        # region Overall status Footer
-        self.system_status_frame = hf.config_frame(parent, 1, 4, True, 2, 0, True, const.MIDGROUND_COLOR)
-        self.status_label = hf.create_label(parent=self.system_status_frame, message="Status: Stable connection", pos_x=0, pos_y=2, bg_color=const.BACKGROUND_COLOR)
-        # endregion
-  
 
 if __name__ == "__main__":
     """Main."""
