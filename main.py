@@ -10,23 +10,39 @@ import ghost_device_data
 
 class CommandApp:
     def __init__(self, parent):
-        
+        # creating child objects
+        self.nav_bar = NavBar(self)
+        self.main_page = MainPage(self)
+        self.status_page = StatusPage(self)
+        self.update_page = UpdatePage(self)
+        self.footer = Footer(self)
         self.tabs = []
         self.maindashboard = None
+        self.set_page(self.main_page.dashbord_frame) # Sets page to main page on start
+    # region Methods
+    def set_page(self, current_page: tk.Frame):
+        current_page.tkraise()
+    # endregion
 
+class NavBar(CommandApp):
+    def __init__(self, parent):
+        super().__init__(parent) # Inheritance parent data
         # region Navbar
         self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, True, const.MIDGROUND_COLOR)
 
-        nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.dashbord_frame) )
+        nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.main_page.dashbord_frame) )
         nav_button_main_dashboard.grid(row=0, column=0, columnspan=2, sticky="nsew", padx="5px", pady="5px")
 
-        nav_button_status = tk.Button(self.navbar_frame, text="Status", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.curent_status_frame) )
+        nav_button_status = tk.Button(self.navbar_frame, text="Status", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.status_page.curent_status_frame) )
         nav_button_status.grid(row=0, column=2, columnspan=2, sticky="nsew", padx="5px", pady="5px")
 
-        nav_button_update_state = tk.Button(self.navbar_frame, text="Update State", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.update_status_frame) )
+        nav_button_update_state = tk.Button(self.navbar_frame, text="Update State", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.set_page(self.update_page.update_status_frame) )
         nav_button_update_state.grid(row=0, column=4, columnspan=2, sticky="nsew", padx="5px", pady="5px")
         # endregion
 
+class MainPage(CommandApp):
+    def __init__(self, parent):
+        super().__init__(parent) # Inheritance parent data
         # region Main dashboard page
         self.dashbord_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.dashboard_label = hf.create_label(parent=self.dashbord_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
@@ -40,10 +56,13 @@ class CommandApp:
         self.display_devices = hf.map_elements(self.dashboard_device_frame_data, self.dashboard_device_genral_data)
         # endregion
 
+class StatusPage(CommandApp):
+    def __init__(self, parent):
+        super().__init__(parent) # Inheritance parent data
         # region Current status page
         
         self.curent_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
-        self.dashboard_label = hf.create_label(parent=self.dashbord_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
+        self.dashboard_label = hf.create_label(parent=self.curent_status_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
 
         self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.current_status_device_data = [(
@@ -54,6 +73,9 @@ class CommandApp:
         self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
         # endregion
 
+class UpdatePage(CommandApp):
+    def __init__(self, parent):
+        super().__init__(parent) # Inheritance parent data
         # region Update status page
         self.update_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.update_status_frame_data = [self.update_status_frame, const.MIDGROUND_COLOR, 2, 0]
@@ -64,22 +86,19 @@ class CommandApp:
         self.display_device_data = hf.map_elements(self.update_status_frame_data, self.update_device_data)
         # endregion
 
+    # functions
+    def show_sensor_dashboard(self, element):
+        print(f"This should show the dashboard for sesnor id: {element["device_id"]}")
+        pass
+
+class Footer(CommandApp):
+    def __init__(self, parent):
+        super().__init__(parent) # Inheritance parent data
         # region Overall status Footer
         self.system_status_frame = hf.config_frame(parent, 1, 4, True, 2, 0, True, const.MIDGROUND_COLOR)
         self.status_label = hf.create_label(parent=self.system_status_frame, message="Status: Stable connection", pos_x=0, pos_y=2, bg_color=const.BACKGROUND_COLOR)
         # endregion
-
-        self.set_page(self.dashbord_frame) # Sets page to main page on start
-    # region Methods
-    def set_page(self, current_page: tk.Frame):
-        current_page.tkraise()
-    
-    def show_sensor_dashboard(self, element):
-        print(f"This should show the dashboard for sesnor id: {element["device_id"]}")
-        pass
-    # endregion
-
-            
+  
 
 if __name__ == "__main__":
     """Main."""
