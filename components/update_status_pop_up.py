@@ -20,6 +20,7 @@ class UpdatePopUp(tk.Frame):
         self.motor_label = hf.create_label(parent=self.motor_frame, message="Motor", pos_x=0, pos_y=2, bg_color=const.BACKGROUND_COLOR)
         self.set_motor_direction_input = hf.create_entry(parent=self.motor_frame, message="Please pick a motor direction in digrees", func=self.on_update, pos_x=0, pos_y=3, bg_color=const.BACKGROUND_COLOR)
 
-    def on_update():
+    def on_update(self):
+        print(self.set_motor_direction_input.get())
         pass
         
