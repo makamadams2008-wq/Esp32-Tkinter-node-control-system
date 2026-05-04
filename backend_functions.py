@@ -30,17 +30,17 @@ def config_frame(parent, cols, rows, visibility, row_pos, col_pos, adaptive, bac
     # Configures rows and columns differently depending if adaptive is True
     if adaptive is True :
         for i in range(cols):
-            frame.columnconfigure(i, weight=1, uniform="stat_cols", minsize=20)
+            frame.columnconfigure(i, weight=1, uniform="stat_cols", minsize=100)
 
         for i in range(rows):
-            frame.rowconfigure(i, weight=1, uniform="stat_rows", minsize=15)
+            frame.rowconfigure(i, weight=1, uniform="stat_rows", minsize=20)
 
     else:
         for i in range(cols):
-            frame.columnconfigure(i, weight=0, minsize=20)
+            frame.columnconfigure(i, weight=0, minsize=100)
 
         for i in range(rows):
-            frame.rowconfigure(i, weight=0, minsize=15)
+            frame.rowconfigure(i, weight=0, minsize=20)
     return frame
 
 def create_entry(parent, message, func, pos_x, pos_y, bg_color):
@@ -76,8 +76,6 @@ def create_radio(parent, message, my_list, set_value, func, pos_x, pos_y, bg_col
     # Setup
     list_variable = tk.StringVar()
     list_variable.set(str(set_value))
-    print(set_value)
-    radio_frame.save_verable = list_variable
     radios = []
     # Creating Radios
     for i, item in enumerate(my_list):
@@ -98,10 +96,18 @@ def create_button(parent, message, func, pos_x, pos_y, bg_color):
 def map_elements(canvas_data,  input_data): # Input values is a list
 
     parent, canvas_color, canvas_row, canvas_col = canvas_data # Destructuring for readability
-    canvas = tk.Canvas(parent, width=600, height=300, bg=canvas_color)
+    canvas = tk.Canvas(parent, width=400, height=200, bg=canvas_color)
     canvas.grid(column=canvas_col, row=canvas_row, rowspan=4)
 
-    parent_frame = config_frame(canvas, 1, len(input_data), True, 0, 0, False, const.MIDGROUND_COLOR) # creates the frame
+    v_scroll = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
+    v_scroll.grid(row=canvas_row, column=canvas_col + 1, rowspan=4, sticky="ns")
+    canvas.configure(yscrollcommand=v_scroll.set)
+
+    canvas.configure(scrollregion=canvas.bbox("all"))
+
+    parent_frame = config_frame(canvas, 1, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR)
+
+    canvas.create_window((0, 0), window=parent_frame, anchor="nw")
 
     array_of_child_frames = []
     # Breaking down perant elements to children for creation
@@ -126,4 +132,8 @@ def map_elements(canvas_data,  input_data): # Input values is a list
                 create_label(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
         array_of_child_frames.append(child_frame) # Appends the data to a list of frame componets
     # print(array_of_child_frames)
+
+    parent_frame.update_idletasks()
+    canvas.configure(scrollregion=canvas.bbox("all"))
+
     return array_of_child_frames, list_of_varables
