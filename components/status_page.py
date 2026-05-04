@@ -2,6 +2,7 @@ import tkinter as tk
 import backend_functions as hf
 import constants as const
 import ghost_device_data
+from components.pop_ups.show_status_pop_up import ShowPopUp
 
 class StatusPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -15,8 +16,10 @@ class StatusPage(tk.Frame):
         self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.current_status_device_data = [(
             ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
-            ("label",[f" Device ID: {element['device_id']}"], [const.MIDGROUND_COLOR]),
-            ("label",[f" Components: {', '.join(element['components'])}"], [const.MIDGROUND_COLOR]),
+            ("button", ["Veiw Sensor", lambda e = element: self.show_sensor_info(e)], [const.MIDGROUND_COLOR])
         ) for element in ghost_device_data.devices] # Data is stored with a type and info
         self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
         # endregion
+
+    def show_sensor_info(self, current_device):
+        self.pop_up = ShowPopUp(hf.config_root(self.parent), self, current_device)

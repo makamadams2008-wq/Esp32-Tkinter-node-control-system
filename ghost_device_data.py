@@ -18,4 +18,7 @@ devices = [
     {"device_id": 1,"device_name": "device A", "components": device_components},
     {"device_id": 2,"device_name": "device B", "components": device_components},
     {"device_id": 3,"device_name": "device C", "components": device_components},
+    {"device_id": 4,"device_name": "device D", "components": device_components},
+    {"device_id": 5,"device_name": "device E", "components": device_components},
+    {"device_id": 6,"device_name": "device F", "components": device_components},
 ]
