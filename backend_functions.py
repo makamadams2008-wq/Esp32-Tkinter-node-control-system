@@ -53,10 +53,10 @@ def create_entry(parent, message, func, pos_x, pos_y, bg_color):
     label = tk.Label(entry_frame, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     label.grid(row=0, column=0, columnspan=4, sticky="nsew")
 
-    enter_here_label = tk.Label(entry_frame, text="Enter Here:", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
+    enter_here_label = tk.Label(entry_frame, text="Enter Here:", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.ACCENT_COLOR)
     enter_here_label.grid(row=1, column=0, columnspan=2, sticky="nsew")
 
-    entry = tk.Entry(entry_frame, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
+    entry = tk.Entry(entry_frame, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.ACCENT_COLOR)
     entry.grid(row=1, column=2, columnspan=2, sticky="nsew")
 
     confirmation_button = tk.Button(entry_frame, text="Confirm", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.ACCENT_COLOR, command=func)
