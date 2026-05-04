@@ -7,7 +7,7 @@ class NavBar(tk.Frame):
         super().__init__(parent) # Inheritance parent data
         self.controller = controller
         # region Navbar
-        self.navbar_frame = hf.config_frame(parent, 6, 1, True, 0, 0, True, const.MIDGROUND_COLOR)
+        self.navbar_frame = hf.config_frame(parent, 6, 1, 1, True, 0, 0, True, const.MIDGROUND_COLOR)
 
         nav_button_main_dashboard = tk.Button(self.navbar_frame, text="Main Dashboard", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command= lambda: self.controller.set_page(self.controller.main_page.dashbord_frame) )
         nav_button_main_dashboard.grid(row=0, column=0, columnspan=2, sticky="nsew", padx="5px", pady="5px")

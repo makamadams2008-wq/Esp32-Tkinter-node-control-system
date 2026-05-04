@@ -10,7 +10,7 @@ class UpdatePage(tk.Frame):
         self.controller = controller
         self.parent = parent
         # region Update status page
-        self.update_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
+        self.update_status_frame = hf.config_frame(parent, 1, 4, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.update_status_frame_data = [self.update_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_device_data = [(
             ("label", [element['device_name']], [const.BACKGROUND_COLOR]),

@@ -9,7 +9,7 @@ class StatusPage(tk.Frame):
         self.controller = controller
         # region Current status page
         
-        self.curent_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
+        self.curent_status_frame = hf.config_frame(parent, 1, 4, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.dashboard_label = hf.create_label(parent=self.curent_status_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
 
         self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]

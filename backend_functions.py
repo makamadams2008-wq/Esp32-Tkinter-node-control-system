@@ -16,7 +16,7 @@ def config_root(parent):
     child_root.grid_rowconfigure(0, weight=1)
     return child_root
 
-def config_frame(parent, cols, rows, visibility, row_pos, col_pos, adaptive, background_color):
+def config_frame(parent, cols, rows, col_span, visibility, row_pos, col_pos, adaptive, background_color):
     """
     Configuers the frames by asigning there parent, rows columbs,
     relitive postion and if adaptive gives the frames the ability to
@@ -25,7 +25,7 @@ def config_frame(parent, cols, rows, visibility, row_pos, col_pos, adaptive, bac
     # A frame for all content
     frame = tk.Frame(parent, bg=background_color, highlightthickness=0)
     if visibility is True :
-        frame.grid(row=row_pos, column=col_pos, sticky="nsew")
+        frame.grid(row=row_pos, column=col_pos, sticky="nsew", columnspan=col_span)
 
     # Configures rows and columns differently depending if adaptive is True
     if adaptive is True :
@@ -49,7 +49,7 @@ def create_entry(parent, message, func, pos_x, pos_y, bg_color):
     when confirm button is pressed. The function is designed to quickly
     create muliptle enetries with a simple entry confirm buutton format.
     """
-    entry_frame = config_frame(parent, 4, 3, True, pos_y, pos_x, True, bg_color) # Creates a parent frame
+    entry_frame = config_frame(parent, 4, 3, 4, True, pos_y, pos_x, True, bg_color) # Creates a parent frame
     label = tk.Label(entry_frame, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     label.grid(row=0, column=0, columnspan=4, sticky="nsew")
 
@@ -69,10 +69,10 @@ def create_radio(parent, message, my_list, set_value, func, pos_x, pos_y, bg_col
     for options, a messgae to ask, and a function to
     run when a option is selected.
     """
-    radio_frame = config_frame(parent, 1, len(my_list)+ 1, True, pos_y, pos_x, True, bg_color)
+    radio_frame = config_frame(parent, len(my_list)+1, 1, 4, True, pos_y, pos_x, True, bg_color)
     # Label
     my_label = tk.Label(radio_frame, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
-    my_label.grid(row=0, column=0, columnspan=1, sticky="nsew")
+    my_label.grid(row=0, column=0, sticky="nsew")
     # Setup
     list_variable = tk.StringVar()
     list_variable.set(str(set_value))
@@ -80,7 +80,7 @@ def create_radio(parent, message, my_list, set_value, func, pos_x, pos_y, bg_col
     # Creating Radios
     for i, item in enumerate(my_list):
         new_radio = tk.Radiobutton(radio_frame, text=str(item), variable=list_variable, value=item, command=func, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, selectcolor=const.BACKGROUND_COLOR)
-        new_radio.grid(row=i+1, column=0, columnspan=1, sticky="nsew")
+        new_radio.grid(row=0, column=i+1, sticky="nsew")
         radios.append(new_radio)
     # Returns the instance variable
     return list_variable
@@ -105,7 +105,7 @@ def map_elements(canvas_data,  input_data): # Input values is a list
 
     canvas.configure(scrollregion=canvas.bbox("all"))
 
-    parent_frame = config_frame(canvas, 1, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR)
+    parent_frame = config_frame(canvas, 1, len(input_data), 1, True, 0, 0, True, const.MIDGROUND_COLOR)
 
     canvas.create_window((0, 0), window=parent_frame, anchor="nw")
 
@@ -114,7 +114,7 @@ def map_elements(canvas_data,  input_data): # Input values is a list
     list_of_varables =[]
     for index, element in enumerate(input_data):
         # print(f"Element Length: {len(element)}")
-        child_frame = config_frame(parent_frame, 4, len(element), True, index, 0, True, const.BACKGROUND_COLOR)
+        child_frame = config_frame(parent_frame, 4, len(element), 1, True, index, 0, True, const.BACKGROUND_COLOR)
         for sub_index, info_field in enumerate(element):
             # Each info field element is a list eg (2, 'lable', [])
             info_field_type = info_field[0]
