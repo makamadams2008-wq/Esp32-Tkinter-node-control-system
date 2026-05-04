@@ -49,7 +49,7 @@ def create_entry(parent, message, func, pos_x, pos_y, bg_color):
     when confirm button is pressed. The function is designed to quickly
     create muliptle enetries with a simple entry confirm buutton format.
     """
-    entry_frame = config_frame(parent, 4, 3, True, pos_x, pos_y, True, bg_color) # Creates a parent frame
+    entry_frame = config_frame(parent, 4, 3, True, pos_y, pos_x, True, bg_color) # Creates a parent frame
     label = tk.Label(entry_frame, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     label.grid(row=0, column=0, columnspan=4, sticky="nsew")
 
