@@ -64,15 +64,16 @@ def create_entry(parent, message, func, pos_x, pos_y, bg_color):
     return entry
 
 def create_radio(parent, message, my_list, func, pos_x, pos_y, bg_color):
+    print(pos_x, pos_y)
     """
     Creates a tkinter radio with a list of elements
     for options, a messgae to ask, and a function to
     run when a option is selected.
     """
-    radio_frame = config_frame(parent, 4, len(my_list)+ 1, True, pos_x, pos_y, True, bg_color)
+    radio_frame = config_frame(parent, 1, len(my_list)+ 1, True, pos_y, pos_x, True, bg_color)
     # Label
     my_label = tk.Label(radio_frame, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
-    my_label.grid(row=0, column=0, columnspan=4, sticky="nsew")
+    my_label.grid(row=0, column=0, columnspan=1, sticky="nsew")
     # Setup
     list_variable = tk.StringVar()
     list_variable.set(str(my_list[0]))
@@ -80,12 +81,13 @@ def create_radio(parent, message, my_list, func, pos_x, pos_y, bg_color):
     # Creating Radios
     for i, item in enumerate(my_list):
         new_radio = tk.Radiobutton(radio_frame, text=str(item), variable=list_variable, value=item, command=func, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, selectcolor=const.BACKGROUND_COLOR)
-        new_radio.grid(row=i+1, column=0, columnspan=6, sticky="sew")
+        new_radio.grid(row=i+1, column=0, columnspan=1, sticky="nsew")
         radios.append(new_radio)
     # Returns the instance variable
     return list_variable
 
 def create_label(parent, message, pos_x, pos_y, bg_color):
+    print(pos_x, pos_y)
     label = tk.Label(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.FOREGROUND_COLOR)
     label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
 
@@ -105,16 +107,17 @@ def map_elements(canvas_data,  input_data): # Input values is a list
     # Breaking down perant elements to children for creation
     for index, element in enumerate(input_data):
         # print(f"Element Length: {len(element)}")
+        list_of_varables =[]
         child_frame = config_frame(parent_frame, 4, len(element), True, index, 0, True, const.BACKGROUND_COLOR)
         for index, info_field in enumerate(element):
             # Each info field element is a list eg (2, 'lable', [])
             info_field_type = info_field[0]
             info_field_data = info_field[1]
             info_field_atrabutes = info_field[2]
-            # print(f"Input \n Data: {info_field_data}\n Type: {info_field_type}\n Atrabutes{info_field_atrabutes}")
+            #print(f"Input \n Data: {info_field_data}\n Type: {info_field_type}\n Atrabutes{info_field_atrabutes}")
             # Cheaks the type of the output
             if info_field_type == "radio":
-                create_radio(child_frame, *info_field_data, 0, index, *info_field_atrabutes) # Spreads the values
+                list_of_varables.append(create_radio(child_frame, *info_field_data, 0, index, *info_field_atrabutes)) # Spreads the values
             if info_field_type == "button":
                 create_button(child_frame, *info_field_data, 0, index, *info_field_atrabutes) # Spreads the values
             elif info_field_type == "entry":
@@ -123,4 +126,4 @@ def map_elements(canvas_data,  input_data): # Input values is a list
                 create_label(child_frame, *info_field_data, 0, index, *info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
         array_of_child_frames.append(child_frame) # Appends the data to a list of frame componets
     # print(array_of_child_frames)
-    return array_of_child_frames
+    return array_of_child_frames, list_of_varables

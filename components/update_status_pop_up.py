@@ -17,10 +17,11 @@ class UpdatePopUp(tk.Frame):
         
         self.update_led_frame_data = [self.led_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_led_data = [(
-            ("label", [f"Led {led_id})"], [const.BACKGROUND_COLOR]),
-            ("radio", ["Toggle light",["On", "Off"], self.on_led_update], [const.MIDGROUND_COLOR])
+            ("label", [f"{led_id}"], ["green"]),
+            ("radio", ["Toggle light",["On ", "Off"], self.on_led_update], ["pink"])
+            
         ) for led_id, value in device["components"]["outputs"]["leds_status"].items()] # Data is stored with a type and info
-        self.led_data = hf.map_elements(self.update_led_frame_data, self.update_led_data)
+        self.led_data, list_of_var = hf.map_elements(self.update_led_frame_data, self.update_led_data)
 
 
         self.motor_frame = hf.config_frame(parent_root, 1, 2, True, 2, 0, True, const.MIDGROUND_COLOR)
