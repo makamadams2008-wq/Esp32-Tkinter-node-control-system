@@ -69,7 +69,7 @@ def create_radio(parent, message, my_list, func, pos_x, pos_y, bg_color):
     for options, a messgae to ask, and a function to
     run when a option is selected.
     """
-    radio_frame = config_frame(parent, 4, len(my_list)+ 1, pos_x, pos_y, True, bg_color)
+    radio_frame = config_frame(parent, 4, len(my_list)+ 1, True, pos_x, pos_y, True, bg_color)
     # Label
     my_label = tk.Label(radio_frame, text=message, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     my_label.grid(row=0, column=0, columnspan=4, sticky="nsew")
