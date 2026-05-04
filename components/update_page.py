@@ -2,11 +2,13 @@ import tkinter as tk
 import backend_functions as hf
 import constants as const
 import ghost_device_data
+from components.update_status_pop_up import UpdatePopUp
 
 class UpdatePage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent) # Inheritance parent data
         self.controller = controller
+        self.parent = parent
         # region Update status page
         self.update_status_frame = hf.config_frame(parent, 1, 4, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.update_status_frame_data = [self.update_status_frame, const.MIDGROUND_COLOR, 2, 0]
@@ -20,4 +22,5 @@ class UpdatePage(tk.Frame):
     # functions
     def show_sensor_dashboard(self, element):
         print(f"This should show the dashboard for sesnor id: {element["device_id"]}")
+        self.pop_up_window = UpdatePopUp(self.parent, self)
         pass
