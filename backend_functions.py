@@ -30,17 +30,17 @@ def config_frame(parent, cols, rows, visibility, row_pos, col_pos, adaptive, bac
     # Configures rows and columns differently depending if adaptive is True
     if adaptive is True :
         for i in range(cols):
-            frame.columnconfigure(i, weight=1, uniform="stat_cols", minsize=100)
+            frame.columnconfigure(i, weight=1, uniform="stat_cols", minsize=20)
 
         for i in range(rows):
-            frame.rowconfigure(i, weight=1, uniform="stat_rows", minsize=30)
+            frame.rowconfigure(i, weight=1, uniform="stat_rows", minsize=15)
 
     else:
         for i in range(cols):
-            frame.columnconfigure(i, weight=1, minsize=50)
+            frame.columnconfigure(i, weight=0, minsize=20)
 
         for i in range(rows):
-            frame.rowconfigure(i, weight=1, minsize=20)
+            frame.rowconfigure(i, weight=0, minsize=15)
     return frame
 
 def create_entry(parent, message, func, pos_x, pos_y, bg_color):
@@ -63,8 +63,7 @@ def create_entry(parent, message, func, pos_x, pos_y, bg_color):
     confirmation_button.grid(row=2, column=0, columnspan=4, sticky="nsew")
     return entry
 
-def create_radio(parent, message, my_list, func, pos_x, pos_y, bg_color):
-    print(pos_x, pos_y)
+def create_radio(parent, message, my_list, set_value, func, pos_x, pos_y, bg_color):
     """
     Creates a tkinter radio with a list of elements
     for options, a messgae to ask, and a function to
@@ -76,7 +75,9 @@ def create_radio(parent, message, my_list, func, pos_x, pos_y, bg_color):
     my_label.grid(row=0, column=0, columnspan=1, sticky="nsew")
     # Setup
     list_variable = tk.StringVar()
-    list_variable.set(str(my_list[0]))
+    list_variable.set(str(set_value))
+    print(set_value)
+    radio_frame.save_verable = list_variable
     radios = []
     # Creating Radios
     for i, item in enumerate(my_list):
@@ -87,7 +88,6 @@ def create_radio(parent, message, my_list, func, pos_x, pos_y, bg_color):
     return list_variable
 
 def create_label(parent, message, pos_x, pos_y, bg_color):
-    print(pos_x, pos_y)
     label = tk.Label(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.FOREGROUND_COLOR)
     label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
 
@@ -101,15 +101,15 @@ def map_elements(canvas_data,  input_data): # Input values is a list
     canvas = tk.Canvas(parent, width=600, height=300, bg=canvas_color)
     canvas.grid(column=canvas_col, row=canvas_row, rowspan=4)
 
-    parent_frame = config_frame(canvas, 1, len(input_data), True, 0, 0, True, const.MIDGROUND_COLOR) # creates the frame
+    parent_frame = config_frame(canvas, 1, len(input_data), True, 0, 0, False, const.MIDGROUND_COLOR) # creates the frame
 
     array_of_child_frames = []
     # Breaking down perant elements to children for creation
+    list_of_varables =[]
     for index, element in enumerate(input_data):
         # print(f"Element Length: {len(element)}")
-        list_of_varables =[]
         child_frame = config_frame(parent_frame, 4, len(element), True, index, 0, True, const.BACKGROUND_COLOR)
-        for index, info_field in enumerate(element):
+        for sub_index, info_field in enumerate(element):
             # Each info field element is a list eg (2, 'lable', [])
             info_field_type = info_field[0]
             info_field_data = info_field[1]
@@ -117,13 +117,13 @@ def map_elements(canvas_data,  input_data): # Input values is a list
             #print(f"Input \n Data: {info_field_data}\n Type: {info_field_type}\n Atrabutes{info_field_atrabutes}")
             # Cheaks the type of the output
             if info_field_type == "radio":
-                list_of_varables.append(create_radio(child_frame, *info_field_data, 0, index, *info_field_atrabutes)) # Spreads the values
+                list_of_varables.append(create_radio(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes)) # Spreads the values
             if info_field_type == "button":
-                create_button(child_frame, *info_field_data, 0, index, *info_field_atrabutes) # Spreads the values
+                create_button(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes) # Spreads the values
             elif info_field_type == "entry":
-                create_entry(child_frame, *info_field_data, 0, index, *info_field_atrabutes)
+                create_entry(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes)
             elif info_field_type == "label":
-                create_label(child_frame, *info_field_data, 0, index, *info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
+                create_label(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
         array_of_child_frames.append(child_frame) # Appends the data to a list of frame componets
     # print(array_of_child_frames)
     return array_of_child_frames, list_of_varables

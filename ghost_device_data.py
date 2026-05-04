@@ -1,6 +1,6 @@
 device_components = {
     "outputs": {
-        "leds_status": {"led_I": "on", "led_II": "on", "led_III": "on", "led_IV": "on", "led_V": "on"},
+        "leds_status": {"led_I": "On", "led_II": "On", "led_III": "On", "led_IV": "On", "led_V": "On"},
         "motor_direction": 270
     },
     "inputs": {

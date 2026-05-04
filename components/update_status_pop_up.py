@@ -18,11 +18,11 @@ class UpdatePopUp(tk.Frame):
         self.update_led_frame_data = [self.led_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_led_data = [(
             ("label", [f"{led_id}"], ["green"]),
-            ("radio", ["Toggle light",["On ", "Off"], self.on_led_update], ["pink"])
+            ("radio", ["Toggle light",["On", "Off"],value, self.on_led_update], ["pink"])
             
         ) for led_id, value in device["components"]["outputs"]["leds_status"].items()] # Data is stored with a type and info
-        self.led_data, list_of_var = hf.map_elements(self.update_led_frame_data, self.update_led_data)
-
+        self.led_data, self.list_of_var = hf.map_elements(self.update_led_frame_data, self.update_led_data)
+        
 
         self.motor_frame = hf.config_frame(parent_root, 1, 2, True, 2, 0, True, const.MIDGROUND_COLOR)
         self.motor_label = hf.create_label(parent=self.motor_frame, message="Motor", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
@@ -33,5 +33,5 @@ class UpdatePopUp(tk.Frame):
         pass
     
     def on_led_update(self):
-        print("option chanaged")
+        print(self.list_of_var[0].get())
         pass
