@@ -59,7 +59,7 @@ def create_entry(parent, message, func, pos_x, pos_y, bg_color):
     entry = tk.Entry(entry_frame, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR)
     entry.grid(row=1, column=2, columnspan=2, sticky="nsew")
 
-    confirmation_button = tk.Button(entry_frame, text="Confirm", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, command=func)
+    confirmation_button = tk.Button(entry_frame, text="Confirm", font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.ACCENT_COLOR, command=func)
     confirmation_button.grid(row=2, column=0, columnspan=4, sticky="nsew")
     return entry
 
@@ -79,7 +79,7 @@ def create_radio(parent, message, my_list, set_value, func, pos_x, pos_y, bg_col
     radios = []
     # Creating Radios
     for i, item in enumerate(my_list):
-        new_radio = tk.Radiobutton(radio_frame, text=str(item), variable=list_variable, value=item, command=func, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.FOREGROUND_COLOR, selectcolor=const.BACKGROUND_COLOR)
+        new_radio = tk.Radiobutton(radio_frame, text=str(item), variable=list_variable, value=item, command=func, font=const.FONT_STATS, bg=const.BACKGROUND_COLOR, fg=const.ACCENT_COLOR, selectcolor=const.FOREGROUND_COLOR)
         new_radio.grid(row=0, column=i+1, sticky="nsew")
         radios.append(new_radio)
     # Returns the instance variable
@@ -90,7 +90,7 @@ def create_label(parent, message, pos_x, pos_y, bg_color):
     label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
 
 def create_button(parent, message, func, pos_x, pos_y, bg_color):
-    label = tk.Button(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.FOREGROUND_COLOR, command=func)
+    label = tk.Button(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.ACCENT_COLOR, command=func)
     label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
     
 def map_elements(canvas_data,  input_data): # Input values is a list
