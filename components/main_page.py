@@ -1,7 +1,7 @@
 import tkinter as tk
 import backend_functions as hf
 import constants as const
-import ghost_device_data
+import database
 
 class MainPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -13,8 +13,8 @@ class MainPage(tk.Frame):
 
         self.dashboard_device_frame_data = [self.dashbord_frame, const.MIDGROUND_COLOR, 2, 0]
         self.dashboard_device_genral_data = [(
-            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
+            ("label", [device['name']], [const.BACKGROUND_COLOR]),
             ("label",[f"Status: Conected"], [const.MIDGROUND_COLOR]),
-        ) for element in ghost_device_data.devices] # Data is stored with a type and info
+        ) for device in database.response.data] # Data is stored with a type and info
         self.display_devices = hf.map_elements(self.dashboard_device_frame_data, self.dashboard_device_genral_data)
         # endregion

@@ -1,7 +1,6 @@
 import tkinter as tk
 import backend_functions as hf
 import constants as const
-import ghost_device_data
 
 
 class ShowPopUp(tk.Frame):

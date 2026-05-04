@@ -1,7 +1,6 @@
 import tkinter as tk
 import backend_functions as hf
 import constants as const
-import ghost_device_data
 
 class UpdatePopUp(tk.Frame):
     def __init__(self, parent_root, controller, device):
