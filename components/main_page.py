@@ -3,6 +3,7 @@ import backend_functions as hf
 import constants as const
 import database
 
+
 class MainPage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent) # Inheritance parent data
@@ -33,4 +34,6 @@ class MainPage(tk.Frame):
             database.supabase.table("Devices").update({'state': "Connected"}).match({"id": current_device["id"]}).execute()
 
         database.fetch_data()
-        self.sync()
+        self.controller.sync_all_pages()
+
+        # Also need to sync status and data page

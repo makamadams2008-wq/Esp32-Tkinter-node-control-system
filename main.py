@@ -18,13 +18,21 @@ class CommandApp:
         self.status_page = status_page.StatusPage(parent, self)
         self.update_page = update_page.UpdatePage(parent, self)
         self.footer = footer.Footer(parent, self)
-        self.tabs = []
+
+        self.tabs = [
+            self.main_page, self.status_page, self.update_page
+        ]
+
         self.maindashboard = None
         self.set_page(self.main_page.dashbord_frame) # Sets page to main page on start
 
 
     def set_page(self, current_page: tk.Frame):
         current_page.tkraise()
+
+    def sync_all_pages(self):
+        for page in self.tabs:
+            page.sync() # polymorhirisum at its finest coming in clutch
         
 
 
