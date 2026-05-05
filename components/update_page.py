@@ -37,4 +37,4 @@ class UpdatePage(tk.Frame):
     def show_sensor_dashboard(self, current_device):
         database.fetch_data()
         self.sync()
-        self.pop_up = UpdatePopUp(hf.config_root(self.parent), self, current_device)
+        self.pop_up = UpdatePopUp(hf.config_root(self.parent), self, current_device["id"])

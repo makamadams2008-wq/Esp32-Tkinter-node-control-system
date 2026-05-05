@@ -34,4 +34,4 @@ class StatusPage(tk.Frame):
     def show_sensor_info(self, current_device):
         database.fetch_data()
         self.sync()
-        self.pop_up = ShowPopUp(hf.config_root(self.parent), self, current_device)
+        self.pop_up = ShowPopUp(hf.config_root(self.parent), self, current_device["id"])

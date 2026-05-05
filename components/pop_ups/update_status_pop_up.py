@@ -6,11 +6,15 @@ from tkinter import messagebox
 
 class UpdatePopUp(tk.Frame):
     
-    def __init__(self, parent_root, controller, device):
+    def __init__(self, parent_root, controller, device_id):
         super().__init__(parent_root) # Inheritance parent data
-        self.controller = controller
-        self.device = device
 
+        self.controller = controller
+        for device in database.response.data:
+            if device['state'] == "Connected" and device["id"] == device_id:
+                self.device = device
+
+        
         self.outputs_label = hf.create_label(parent=parent_root, message="Outputs", pos_x=0, pos_y=0, bg_color=const.BACKGROUND_COLOR)
 
         
@@ -21,7 +25,7 @@ class UpdatePopUp(tk.Frame):
         self.update_led_frame_data = [self.led_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_led_data = []
 
-        for element in device['Components']:
+        for element in self.device['Components']:
             if element["type"] == "LED": self.leds.append(element)
 
         for index, component in enumerate(self.leds):
