@@ -12,7 +12,7 @@ class ShowPopUp(tk.Frame):
         self.frame_data = [parent_root, const.MIDGROUND_COLOR, 2, 0]
         for component in (device['Components']):
             self.lables.append((
-            ("label", [f"{component["name"]} : {component["value"]}"], [const.MIDGROUND_COLOR]),
+            ("label", [f"{component["name"]} :  {component["value"]} {component["unit"]}"], [const.MIDGROUND_COLOR]),
             ))
         self.led_data, self.list_of_var = hf.map_elements(self.frame_data, self.lables)
         

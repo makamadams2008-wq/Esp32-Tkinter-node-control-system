@@ -14,7 +14,13 @@ class MainPage(tk.Frame):
         self.dashboard_device_frame_data = [self.dashbord_frame, const.MIDGROUND_COLOR, 2, 0]
         self.dashboard_device_genral_data = [(
             ("label", [device['name']], [const.BACKGROUND_COLOR]),
-            ("label",[f"Status: Conected"], [const.MIDGROUND_COLOR]),
+            ("button", [device['state'], lambda d = device: self.toggle_conectivity(d)], [const.MIDGROUND_COLOR]),
         ) for device in database.response.data] # Data is stored with a type and info
         self.display_devices = hf.map_elements(self.dashboard_device_frame_data, self.dashboard_device_genral_data)
         # endregion
+    
+    def toggle_conectivity(self, current_device):
+        if current_device['state'] == "Connected":
+            database.supabase.table("Devices").update({'state': "Disconnected"}).match({"id": current_device["id"]}).execute()
+        else:
+            database.supabase.table("Devices").update({'state': "Connected"}).match({"id": current_device["id"]}).execute()

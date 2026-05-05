@@ -35,9 +35,9 @@ class UpdatePopUp(tk.Frame):
 
     def on_motor_update(self):
         print(self.set_motor_direction_input.get())
-        database.supabase.table("Components").update({"value": str(self.set_motor_direction_input.get())}).match({"name": "Main Motor", "device_id": self.device["id"]}).execute()
+        database.supabase.update({"value": str(self.set_motor_direction_input.get())}).match({"name": "Main Motor", "device_id": self.device["id"]}).execute()
 
     
     def on_led_update(self, led, index):
         print(led, index)
-        database.supabase.table("Components").update({"value": self.list_of_var[index].get()}).match({"name": led, "device_id": self.device["id"]}).execute()
+        database.supabase.update({"value": self.list_of_var[index].get()}).match({"name": led, "device_id": self.device["id"]}).execute()
