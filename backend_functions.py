@@ -76,6 +76,7 @@ def create_radio(parent, message, my_list, set_value, func, pos_x, pos_y, bg_col
     # Setup
     list_variable = tk.StringVar()
     list_variable.set(str(set_value))
+    print(f"Value: {set_value}")
     radios = []
     # Creating Radios
     for i, item in enumerate(my_list):

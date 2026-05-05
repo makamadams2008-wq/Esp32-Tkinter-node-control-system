@@ -18,13 +18,16 @@ class UpdatePopUp(tk.Frame):
         self.leds = []
         self.update_led_frame_data = [self.led_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_led_data = []
-        for component in (device['Components']):
-            if component["type"] == "LED":
-                self.leds.append(component["name"])
-                self.update_led_data.append((
-                ("label", [f"{component["name"]}"], [const.MIDGROUND_COLOR]),
-                ("radio", ["Toggle light",["On", "Off"],component["value"], self.on_led_update], [const.BACKGROUND_COLOR])
-                ))
+
+        for element in device['Components']:
+            if element["type"] == "LED": self.leds.append(element)
+
+        for index, component in enumerate(self.leds):
+            print(f"Front end: {component['value']}")
+            self.update_led_data.append((
+            ("label", [f"{component["name"]}"], [const.MIDGROUND_COLOR]),
+            ("radio", ["Toggle light", ["On", "Off"], component["value"], lambda c = component["name"], i = index: self.on_led_update(c, i)], [const.BACKGROUND_COLOR])
+            ))
         self.led_data, self.list_of_var = hf.map_elements(self.update_led_frame_data, self.update_led_data)
        
         self.motor_label = hf.create_label(parent=parent_root, message="Motor", pos_x=0, pos_y=3, bg_color=const.MIDGROUND_COLOR)
@@ -35,8 +38,6 @@ class UpdatePopUp(tk.Frame):
         database.supabase.table("Components").update({"value": str(self.set_motor_direction_input.get())}).match({"type": "motor", "device_id": self.device["id"]}).execute()
 
     
-    def on_led_update(self):
-        for led_input, led_name in zip(self.list_of_var, self.leds):
-            print(led_input.get(), led_name)
-            database.supabase.table("Components").update({"value": str(self.set_motor_direction_input.get())}).match({"name": led_name, "device_id": self.device["id"]}).execute()
-        pass
+    def on_led_update(self, led, index):
+        print(led, index)
+        database.supabase.table("Components").update({"value": self.list_of_var[index].get()}).match({"name": led, "device_id": self.device["id"]}).execute()
