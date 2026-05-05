@@ -8,6 +8,7 @@ class StatusPage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent) # Inheritance parent data
         self.controller = controller
+        self.parent = parent
         # region Current status page
         
         self.curent_status_frame = hf.config_frame(parent, 1, 4, 1, True, 1, 0, True, const.MIDGROUND_COLOR)

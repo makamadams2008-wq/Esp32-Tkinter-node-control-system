@@ -5,7 +5,7 @@ data from the superbase database and diplays it to the user."""
 import tkinter as tk
 import backend_functions as hf
 import constants as const
-import ghost_device_data
+import database
 from components import nav_bar, main_page, status_page, update_page, footer
 
 

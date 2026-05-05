@@ -1,11 +1,12 @@
 import tkinter as tk
 import backend_functions as hf
 import constants as const
-
+import database
 class UpdatePopUp(tk.Frame):
     def __init__(self, parent_root, controller, device):
         super().__init__(parent_root) # Inheritance parent data
         self.controller = controller
+        self.device = device
         print(device["name"])
 
         self.outputs_label = hf.create_label(parent=parent_root, message="Outputs", pos_x=0, pos_y=0, bg_color=const.BACKGROUND_COLOR)
@@ -14,10 +15,12 @@ class UpdatePopUp(tk.Frame):
         self.led_frame = hf.config_frame(parent_root, 1, 2, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.leds_label = hf.create_label(parent=self.led_frame, message="Leds", pos_x=0, pos_y=1, bg_color=const.MIDGROUND_COLOR)
         
+        self.leds = []
         self.update_led_frame_data = [self.led_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_led_data = []
         for component in (device['Components']):
             if component["type"] == "LED":
+                self.leds.append(component["name"])
                 self.update_led_data.append((
                 ("label", [f"{component["name"]}"], [const.MIDGROUND_COLOR]),
                 ("radio", ["Toggle light",["On", "Off"],component["value"], self.on_led_update], [const.BACKGROUND_COLOR])
@@ -29,8 +32,11 @@ class UpdatePopUp(tk.Frame):
 
     def on_motor_update(self):
         print(self.set_motor_direction_input.get())
-        pass
+        database.supabase.table("Components").update({"value": str(self.set_motor_direction_input.get())}).match({"type": "motor", "device_id": self.device["id"]}).execute()
+
     
     def on_led_update(self):
-        print(self.list_of_var[0].get())
+        for led_input, led_name in zip(self.list_of_var, self.leds):
+            print(led_input.get(), led_name)
+            database.supabase.table("Components").update({"value": str(self.set_motor_direction_input.get())}).match({"name": led_name, "device_id": self.device["id"]}).execute()
         pass
