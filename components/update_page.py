@@ -11,13 +11,19 @@ class UpdatePage(tk.Frame):
         self.parent = parent
         # region Update status page
 
+        self.update_status_frame = hf.config_frame(parent, 1, 4, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
+        self.sync()
+        
+    def sync(self):
+        for widget in self.update_status_frame.winfo_children():
+            widget.destroy()
+
         self.connected_devices = []
 
         for device in database.response.data:
             if device['state'] == "Connected":
                 self.connected_devices.append(device)
 
-        self.update_status_frame = hf.config_frame(parent, 1, 4, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.dashboard_label = hf.create_label(parent=self.update_status_frame, message="All devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
         self.update_status_frame_data = [self.update_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_device_data = [(
