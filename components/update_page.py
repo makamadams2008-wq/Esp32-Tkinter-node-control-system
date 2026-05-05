@@ -1,7 +1,7 @@
 import tkinter as tk
 import backend_functions as hf
 import constants as const
-import ghost_device_data
+import database
 from components.pop_ups.update_status_pop_up import UpdatePopUp
 
 class UpdatePage(tk.Frame):
@@ -14,14 +14,14 @@ class UpdatePage(tk.Frame):
         self.dashboard_label = hf.create_label(parent=self.update_status_frame, message="All devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
         self.update_status_frame_data = [self.update_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_device_data = [(
-            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
-            ("button", ["Update Sensor", lambda e = element: self.show_sensor_dashboard(e)], [const.MIDGROUND_COLOR])
-        ) for element in ghost_device_data.devices] # Data is stored with a type and info
+            ("label", [device['name']], [const.BACKGROUND_COLOR]),
+            ("button", ["Update Sensor", lambda d = device: self.show_sensor_dashboard(d)], [const.MIDGROUND_COLOR])
+        ) for device in database.response.data] # Data is stored with a type and info
         self.display_device_data = hf.map_elements(self.update_status_frame_data, self.update_device_data)
         # endregion
 
     # functions
     def show_sensor_dashboard(self, current_device):
-        print(f"This should show the dashboard for sesnor id: {current_device["device_id"]}")
+        print(f"This should show the dashboard for sesnor name: {current_device["name"]}")
         self.pop_up = UpdatePopUp(hf.config_root(self.parent), self, current_device)
         pass

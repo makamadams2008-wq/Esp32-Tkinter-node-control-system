@@ -1,7 +1,7 @@
 import tkinter as tk
 import backend_functions as hf
 import constants as const
-import ghost_device_data
+import database
 from components.pop_ups.show_status_pop_up import ShowPopUp
 
 class StatusPage(tk.Frame):
@@ -15,9 +15,9 @@ class StatusPage(tk.Frame):
 
         self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.current_status_device_data = [(
-            ("label", [element['device_name']], [const.BACKGROUND_COLOR]),
-            ("button", ["Veiw Sensor", lambda e = element: self.show_sensor_info(e)], [const.MIDGROUND_COLOR])
-        ) for element in ghost_device_data.devices] # Data is stored with a type and info
+            ("label", [device['name']], [const.BACKGROUND_COLOR]),
+            ("button", ["Veiw Sensor", lambda d = device: self.show_sensor_info(d)], [const.MIDGROUND_COLOR])
+        ) for device in database.response.data] # Data is stored with a type and info
         self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
         # endregion
 
