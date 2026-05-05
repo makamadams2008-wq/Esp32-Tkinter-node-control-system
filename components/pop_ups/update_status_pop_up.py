@@ -2,6 +2,8 @@ import tkinter as tk
 import backend_functions as hf
 import constants as const
 import database
+from tkinter import messagebox
+
 class UpdatePopUp(tk.Frame):
     def __init__(self, parent_root, controller, device):
         super().__init__(parent_root) # Inheritance parent data
@@ -35,9 +37,15 @@ class UpdatePopUp(tk.Frame):
 
     def on_motor_update(self):
         print(self.set_motor_direction_input.get())
-        database.supabase.update({"value": str(self.set_motor_direction_input.get())}).match({"name": "Main Motor", "device_id": self.device["id"]}).execute()
-
+        try:
+            input_value  = float(self.set_motor_direction_input.get())
+            if input_value < 0 or  input_value > 360:
+                messagebox.showerror("Invalid Input", f"Please insure your value is bettwen 0 and 360!")
+            else:
+                database.supabase.table("Components").update({"value": str(self.set_motor_direction_input.get())}).match({"name": "Main Motor", "device_id": self.device["id"]}).execute()
+        except:
+            messagebox.showerror("Invalid Input", f"Please insure your value is a number with no units!")
     
     def on_led_update(self, led, index):
         print(led, index)
-        database.supabase.update({"value": self.list_of_var[index].get()}).match({"name": led, "device_id": self.device["id"]}).execute()
+        database.supabase.table("Components").update({"value": self.list_of_var[index].get()}).match({"name": led, "device_id": self.device["id"]}).execute()
