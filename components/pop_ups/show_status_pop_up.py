@@ -8,6 +8,7 @@ class ShowPopUp(tk.Frame):
     def __init__(self, parent_root, controller, device_id):
         super().__init__(parent_root) # Inheritance parent data
         self.controller = controller
+        self.parent_root = parent_root
 
         # Grabs new data
         database.fetch_data()

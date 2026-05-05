@@ -32,4 +32,5 @@ class StatusPage(tk.Frame):
         self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
 
     def show_sensor_info(self, current_device):
-        self.pop_up = ShowPopUp(hf.config_root(self.parent), self, current_device["id"])
+        new_window = hf.config_root(self.parent) 
+        self.pop_up = ShowPopUp(new_window, self, current_device["id"])

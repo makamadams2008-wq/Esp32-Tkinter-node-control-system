@@ -9,6 +9,7 @@ class UpdatePopUp(tk.Frame):
     def __init__(self, parent_root, controller, device_id):
         super().__init__(parent_root) # Inheritance parent data
         self.controller = controller
+        self.parent_root = parent_root
 
         # Grabs new data
         database.fetch_data()
@@ -40,6 +41,9 @@ class UpdatePopUp(tk.Frame):
         self.motor_label = hf.create_label(parent=parent_root, message="Motor", pos_x=0, pos_y=3, bg_color=const.MIDGROUND_COLOR)
         self.set_motor_direction_input = hf.create_entry(parent=parent_root, message="Please pick a motor direction in digrees", func=self.on_motor_update, pos_x=0, pos_y=4, bg_color=const.MIDGROUND_COLOR)
 
+        self.name_confirmation_button = tk.Button(parent_root, text="-- Exit --", bg=const.BACKGROUND_COLOR, fg=const.ACCENT_COLOR, command=self.exit_window, font=const.FONT_STATS)
+        self.name_confirmation_button.grid(row=5, column=0, sticky="nsew")
+
     def on_motor_update(self):
         database.fetch_data()
         print(self.set_motor_direction_input.get())
@@ -56,3 +60,6 @@ class UpdatePopUp(tk.Frame):
         database.fetch_data()
         print(led, index)
         database.supabase.table("Components").update({"value": self.list_of_var[index].get()}).match({"name": led, "device_id": self.device["id"]}).execute()
+    
+    def exit_window(self):
+       self.parent_root.destroy()

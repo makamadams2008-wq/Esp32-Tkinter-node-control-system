@@ -35,4 +35,5 @@ class UpdatePage(tk.Frame):
 
     # functions
     def show_sensor_dashboard(self, current_device):
-        self.pop_up = UpdatePopUp(hf.config_root(self.parent), self, current_device["id"])
+        new_window = hf.config_root(self.parent) 
+        self.pop_up = UpdatePopUp(new_window, self, current_device["id"])
