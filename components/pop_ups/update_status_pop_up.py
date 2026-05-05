@@ -5,11 +5,11 @@ import database
 from tkinter import messagebox
 
 class UpdatePopUp(tk.Frame):
+    
     def __init__(self, parent_root, controller, device):
         super().__init__(parent_root) # Inheritance parent data
         self.controller = controller
         self.device = device
-        print(device["name"])
 
         self.outputs_label = hf.create_label(parent=parent_root, message="Outputs", pos_x=0, pos_y=0, bg_color=const.BACKGROUND_COLOR)
 

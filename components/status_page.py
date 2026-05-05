@@ -13,7 +13,7 @@ class StatusPage(tk.Frame):
         self.curent_status_frame = hf.config_frame(parent, 1, 4, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
 
         self.sync()
-        
+
     def sync(self):
         for widget in self.curent_status_frame.winfo_children():
             widget.destroy()
@@ -32,4 +32,6 @@ class StatusPage(tk.Frame):
         self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
 
     def show_sensor_info(self, current_device):
+        database.fetch_data()
+        self.sync()
         self.pop_up = ShowPopUp(hf.config_root(self.parent), self, current_device)
