@@ -29,6 +29,5 @@ class UpdatePage(tk.Frame):
 
     # functions
     def show_sensor_dashboard(self, current_device):
-        print(f"This should show the dashboard for sesnor name: {current_device["name"]}")
         self.pop_up = UpdatePopUp(hf.config_root(self.parent), self, current_device)
         pass

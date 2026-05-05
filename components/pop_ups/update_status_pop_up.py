@@ -36,6 +36,7 @@ class UpdatePopUp(tk.Frame):
         self.set_motor_direction_input = hf.create_entry(parent=parent_root, message="Please pick a motor direction in digrees", func=self.on_motor_update, pos_x=0, pos_y=4, bg_color=const.MIDGROUND_COLOR)
 
     def on_motor_update(self):
+        database.fetch_data()
         print(self.set_motor_direction_input.get())
         try:
             input_value  = float(self.set_motor_direction_input.get())
@@ -47,5 +48,6 @@ class UpdatePopUp(tk.Frame):
             messagebox.showerror("Invalid Input", f"Please insure your value is a number with no units!")
     
     def on_led_update(self, led, index):
+        database.fetch_data()
         print(led, index)
         database.supabase.table("Components").update({"value": self.list_of_var[index].get()}).match({"name": led, "device_id": self.device["id"]}).execute()

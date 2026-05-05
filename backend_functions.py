@@ -6,6 +6,7 @@ functions are for configuring roots frames and UI elements.
 
 import tkinter as tk
 import constants as const
+import database
 
 def config_root(parent):
     """Called when creating a new root, applies all of the constant themes

@@ -12,6 +12,7 @@ from components import nav_bar, main_page, status_page, update_page, footer
 class CommandApp:
     def __init__(self, parent):
         # creating child objects
+        self.parent = parent
         self.nav_bar = nav_bar.NavBar(parent, self)
         self.main_page = main_page.MainPage(parent, self)
         self.status_page = status_page.StatusPage(parent, self)
@@ -20,11 +21,11 @@ class CommandApp:
         self.tabs = []
         self.maindashboard = None
         self.set_page(self.main_page.dashbord_frame) # Sets page to main page on start
-    # region Methods
+
+
     def set_page(self, current_page: tk.Frame):
         current_page.tkraise()
-    # endregion
-
+        
 
 
 if __name__ == "__main__":
