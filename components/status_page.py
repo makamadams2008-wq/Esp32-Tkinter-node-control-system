@@ -10,15 +10,19 @@ class StatusPage(tk.Frame):
         self.controller = controller
         self.parent = parent
         # region Current status page
-        
+
+        self.connected_devices = []
+        for device in database.response.data:
+            if device['state'] == "Connected":
+                self.connected_devices.append(device)
+
         self.curent_status_frame = hf.config_frame(parent, 1, 4, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.dashboard_label = hf.create_label(parent=self.curent_status_frame, message="Connected devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
-
         self.current_status_frame_data = [self.curent_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.current_status_device_data = [(
             ("label", [device['name']], [const.BACKGROUND_COLOR]),
             ("button", ["Veiw Sensor", lambda d = device: self.show_sensor_info(d)], [const.MIDGROUND_COLOR])
-        ) for device in database.response.data] # Data is stored with a type and info
+        ) for device in self.connected_devices] # Data is stored with a type and info
         self.display_device_data = hf.map_elements(self.current_status_frame_data, self.current_status_device_data)
         # endregion
 

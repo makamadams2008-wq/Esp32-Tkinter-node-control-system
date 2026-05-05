@@ -10,13 +10,20 @@ class UpdatePage(tk.Frame):
         self.controller = controller
         self.parent = parent
         # region Update status page
+
+        self.connected_devices = []
+
+        for device in database.response.data:
+            if device['state'] == "Connected":
+                self.connected_devices.append(device)
+
         self.update_status_frame = hf.config_frame(parent, 1, 4, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.dashboard_label = hf.create_label(parent=self.update_status_frame, message="All devices", pos_x=0, pos_y=0, bg_color=const.MIDGROUND_COLOR)
         self.update_status_frame_data = [self.update_status_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_device_data = [(
             ("label", [device['name']], [const.BACKGROUND_COLOR]),
             ("button", ["Update Sensor", lambda d = device: self.show_sensor_dashboard(d)], [const.MIDGROUND_COLOR])
-        ) for device in database.response.data] # Data is stored with a type and info
+        ) for device in self.connected_devices] # Data is stored with a type and info
         self.display_device_data = hf.map_elements(self.update_status_frame_data, self.update_device_data)
         # endregion
 
