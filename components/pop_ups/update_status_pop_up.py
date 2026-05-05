@@ -1,25 +1,38 @@
+"""
+Responsable for edditing the data of the sesnors. Create A window that displays
+the LED's and Motor direction with adicuate documentation for clarity
+"""
+
 import tkinter as tk
 import backend_functions as hf
 import constants as const
 import database
 from tkinter import messagebox
 
+
 class UpdatePopUp(tk.Frame):
-    
+    """
+    Create the Pop up window to alow the user to ajust the sesnors. The window
+    should be easy to read and acount for all input types.
+    """
+
     def __init__(self, parent_root, controller, device_id):
+        """
+        Initialise the key varables responsable for the calation, storage and
+        display of the inputs
+        """
         super().__init__(parent_root) # Inheritance parent data
-        self.controller = controller
+        self.controller = controller # Parent
         self.parent_root = parent_root
 
-        # Grabs new data
-        database.fetch_data()
+        database.fetch_data() # Grabs releant data
+
         for device in database.response.data:
             if device['state'] == "Connected" and device["id"] == device_id:
                 self.device = device
         
+        # Leds
         self.outputs_label = hf.create_label(parent=parent_root, message="Outputs", pos_x=0, pos_y=0, bg_color=const.BACKGROUND_COLOR)
-
-        
         self.led_frame = hf.config_frame(parent_root, 1, 2, 1, True, 1, 0, True, const.MIDGROUND_COLOR)
         self.leds_label = hf.create_label(parent=self.led_frame, message="Leds", pos_x=0, pos_y=1, bg_color=const.MIDGROUND_COLOR)
         
@@ -27,7 +40,8 @@ class UpdatePopUp(tk.Frame):
         self.update_led_frame_data = [self.led_frame, const.MIDGROUND_COLOR, 2, 0]
         self.update_led_data = []
 
-        for element in self.device['Components']:
+        # Filters out other sesnor types
+        for element in self.device['Components']: 
             if element["type"] == "LED": self.leds.append(element)
 
         for index, component in enumerate(self.leds):
@@ -36,7 +50,7 @@ class UpdatePopUp(tk.Frame):
             ("label", [f"{component["name"]}"], [const.MIDGROUND_COLOR]),
             ("radio", ["Toggle light", ["On", "Off"], component["value"], lambda c = component["name"], i = index: self.on_led_update(c, i)], [const.BACKGROUND_COLOR])
             ))
-        self.led_data, self.list_of_var = hf.map_elements(self.update_led_frame_data, self.update_led_data)
+        self.led_data, self.list_of_var = hf.map_elements(self.update_led_frame_data, self.update_led_data) # Maps over elements
        
         self.motor_label = hf.create_label(parent=parent_root, message="Motor", pos_x=0, pos_y=3, bg_color=const.MIDGROUND_COLOR)
         self.set_motor_direction_input = hf.create_entry(parent=parent_root, message="Please pick a motor direction in digrees", func=self.on_motor_update, pos_x=0, pos_y=4, bg_color=const.MIDGROUND_COLOR)
@@ -45,21 +59,27 @@ class UpdatePopUp(tk.Frame):
         self.name_confirmation_button.grid(row=5, column=0, sticky="nsew")
 
     def on_motor_update(self):
-        database.fetch_data()
-        print(self.set_motor_direction_input.get())
+        """
+        When motor input is updated check if the inut is valid before sending it to the database.
+        if the input is invalid inform the user in how.
+        """
+        database.fetch_data() # Insures recent data
+        # Checks if input is valid
         try:
             input_value  = float(self.set_motor_direction_input.get())
             if input_value < 0 or  input_value > 360:
                 messagebox.showerror("Invalid Input", f"Please insure your value is bettwen 0 and 360!")
             else:
+                # Updates the database
                 database.supabase.table("Components").update({"value": str(self.set_motor_direction_input.get())}).match({"name": "Main Motor", "device_id": self.device["id"]}).execute()
-        except:
+        except: # If tru fails
             messagebox.showerror("Invalid Input", f"Please insure your value is a number with no units!")
-    
+
     def on_led_update(self, led, index):
+        """When the state of a led is chnaged reflect that change on the database."""
         database.fetch_data()
-        print(led, index)
         database.supabase.table("Components").update({"value": self.list_of_var[index].get()}).match({"name": led, "device_id": self.device["id"]}).execute()
-    
+
     def exit_window(self):
+       """Destroy the window wheen exit button is pressed."""
        self.parent_root.destroy()

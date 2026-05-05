@@ -1,5 +1,5 @@
 """
-Contains all fo the constant varables for the code that wont 
+Contains all of the constant varables for the code that wont 
 change automaticly but I as the developer may want to change.
 """
 

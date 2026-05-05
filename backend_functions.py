@@ -1,12 +1,12 @@
 """ 
-This file contains a range of gloabal functions that
- are likly to be used across multiple files. Most of the
-functions are for configuring roots frames and UI elements.
+This file is the guts of the project, the file makes tkinter
+more usable by giving it a more data driven structure simuler
+to react or flutter. Each function is global with the pentential
+to be used across multiple files effectivly.
 """
 
 import tkinter as tk
 import constants as const
-import database
 
 def config_root(parent):
     """Called when creating a new root, applies all of the constant themes
@@ -88,54 +88,62 @@ def create_radio(parent, message, my_list, set_value, func, pos_x, pos_y, bg_col
     return list_variable
 
 def create_label(parent, message, pos_x, pos_y, bg_color):
+    """Create and grid a lable to make initration easier for
+    maping function, and imporve consistancy."""
     label = tk.Label(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.FOREGROUND_COLOR)
     label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
 
 def create_button(parent, message, func, pos_x, pos_y, bg_color):
+    """Create and grid a Button to save space and to make itiarting over lsit elements more dynamic."""
     label = tk.Button(parent, text=message, font=const.FONT_STATS, bg=bg_color, fg=const.ACCENT_COLOR, command=func)
     label.grid(row=pos_y, column=pos_x, columnspan=4, sticky="nsew")
     
 def map_elements(canvas_data,  input_data): # Input values is a list
-
+    """ 
+    Take lists of structured canavas and inut data.
+    Destructure the data into frameworks for frames and
+    sets of data for itirating over. The function should
+    use these sets of data to create a lsit of frames with
+    set interor elements. The function is designed for 
+    maximum flexibility and adaptability.
+    """
     parent, canvas_color, canvas_row, canvas_col = canvas_data # Destructuring for readability
     canvas = tk.Canvas(parent, width=400, height=200, bg=canvas_color)
     canvas.grid(column=canvas_col, row=canvas_row, rowspan=4)
 
+    # Sroll bar configuraton to provide any size data with a fixed sized output
     v_scroll = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
     v_scroll.grid(row=canvas_row, column=canvas_col + 1, rowspan=4, sticky="ns")
     canvas.configure(yscrollcommand=v_scroll.set)
 
+    # Linking the Scroll bar parent frame and canvas together
     canvas.configure(scrollregion=canvas.bbox("all"))
-
     parent_frame = config_frame(canvas, 1, len(input_data), 1, True, 0, 0, True, const.MIDGROUND_COLOR)
-
     canvas.create_window((0, 0), window=parent_frame, anchor="nw")
 
-    array_of_child_frames = []
-    # Breaking down perant elements to children for creation
+    array_of_child_frames = []  # Breaking down perant elements to children for creation
     list_of_varables =[]
+    
     for index, element in enumerate(input_data):
-        # print(f"Element Length: {len(element)}")
         child_frame = config_frame(parent_frame, 4, len(element), 1, True, index, 0, True, const.BACKGROUND_COLOR)
         for sub_index, info_field in enumerate(element):
             # Each info field element is a list eg (2, 'lable', [])
             info_field_type = info_field[0]
             info_field_data = info_field[1]
             info_field_atrabutes = info_field[2]
-            #print(f"Input \n Data: {info_field_data}\n Type: {info_field_type}\n Atrabutes{info_field_atrabutes}")
+            
             # Cheaks the type of the output
             if info_field_type == "radio":
-                list_of_varables.append(create_radio(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes)) # Spreads the values
+                list_of_varables.append(create_radio(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes)) # " * " Spreads the values into individual varables
             if info_field_type == "button":
-                create_button(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes) # Spreads the values
+                create_button(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes)
             elif info_field_type == "entry":
                 create_entry(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes)
             elif info_field_type == "label":
-                create_label(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes) # Turnery operator checks if there is a different set of values to dispaly on the label
+                create_label(child_frame, *info_field_data, 0, sub_index, *info_field_atrabutes)
         array_of_child_frames.append(child_frame) # Appends the data to a list of frame componets
-    # print(array_of_child_frames)
 
     parent_frame.update_idletasks()
     canvas.configure(scrollregion=canvas.bbox("all"))
 
-    return array_of_child_frames, list_of_varables
+    return array_of_child_frames, list_of_varables # For asignnemt and confifuration
